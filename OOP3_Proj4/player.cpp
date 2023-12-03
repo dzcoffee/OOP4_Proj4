@@ -1,4 +1,7 @@
-#include "oopmon.h"
+#include <SFML/Graphics.hpp>
+#include "oopmon.cpp"
+
+using namespace sf;
 
 class Player {
 public:
@@ -7,7 +10,7 @@ public:
 
 	void displayPlayerInfo() { // 플레이어 정보 출력
 		cout << "Player Name: " << name << endl;
-		cout << "Oopmon List: " << endl;
+		cout << "Oopmon List: ";
 		displayMonList();
 		cout << "Inventory: ";
 		displayInventory();
@@ -41,16 +44,17 @@ public:
 		if (monList.empty())
 			cout << "List is empty." << endl;
 		else {
+			cout << endl;
 			for (auto& op : monList) {
 				cout << cnt++ << " [" << op.getName() << "]"
-					 << " Lv. " << op.getLv() << " |"
-					 << " HP: " << op.getHp() << " |"
-					 << " MP: " << op.getMp() << endl;
+					<< " Lv. " << op.getLv() << " |"
+					<< " HP: " << op.getHp() << " |"
+					<< " MP: " << op.getMp() << endl;
 			}
 		}
 	}
 
-	void orderBattle(oopmon* op) { // 전투 지시
+	void selectCurMon() { // 플레이어가 현재 사용할 몬스터를 선택
 		int selectedMon;
 
 		cout << "Oopmon List: " << endl;
@@ -60,12 +64,33 @@ public:
 
 		cout << "Which Monster do you want to choose to fight? ";
 		cin >> selectedMon;
-		monList[selectedMon - 1].fight(op);
+		curMonIndex = selectedMon - 1;
 	}
+
+	oopmon& curmon() { // 플레이어가 선택한 몬스터를 전달
+		if (curMonIndex >= 0 && curMonIndex < monList.size())
+			return monList[curMonIndex];
+		else
+			cout << "There are cureently no monsters you have!" << endl;
+	}
+
+	bool isEncounted(vector<oopmon> mapmonList) { // mapmon을 만났는지 여부 반환
+		for (int i = 0; i < 6; i++) {
+			if (get_hit_box().intersects(mapmonList[i].get_hit_box())) {
+				cout << "met " << mapmonList[i].getName() << "!" << endl;
+				cout << "Start a battle with " << mapmonList[i].getName() << "." << endl;
+				return true;
+			}
+		}
+		return false;
+	}
+
+	sf::FloatRect get_hit_box() const;
 
 private:
 	string name; // name of player
 	vector<string> inventory;
 	vector<oopmon> monList;
+	int curMonIndex; // index of player's current monster choice
 
 };
