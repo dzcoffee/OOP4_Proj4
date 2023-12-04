@@ -4,4 +4,7 @@
     <LocalDebuggerEnvironment>PATH=C:\DevCpp\SFML-2.6.1\bin</LocalDebuggerEnvironment>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
+  <PropertyGroup>
+    <ShowAllFiles>false</ShowAllFiles>
+  </PropertyGroup>
 </Project>

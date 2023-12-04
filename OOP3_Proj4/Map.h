@@ -3,14 +3,12 @@
 
 #include <SFML/Graphics.hpp>
 #include <vector>
+#include "player.cpp"
 
 using namespace std;
 using namespace sf;
 
 class MapManager;
-class Player {
-
-};
 
 class Tile {
 protected:

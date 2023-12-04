@@ -1,4 +1,7 @@
-#include "oopmon.h"
+#ifndef PLAYER_CPP
+#define PLAYER_CPP
+
+#include "oopmon.cpp"
 
 class Player {
 public:
@@ -69,3 +72,5 @@ private:
 	vector<oopmon> monList;
 
 };
+
+#endif

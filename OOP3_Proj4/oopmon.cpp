@@ -1,3 +1,6 @@
+#ifndef OOPMON_CPP
+#define OOPMON_CPP
+
 #include<iostream>
 #include<stdlib.h>
 #include<random>
@@ -7,19 +10,39 @@ using namespace std;
 
 class oopmon {
 public:
+	friend class gamecontroller;
 	enum montype { grass, fire, water }; //grass==0, fire==1, water==2
 
-	oopmon() {}
-	oopmon(string name) { this->NAME = name; }
-	oopmon(montype type) {	this->type = type;}
-	oopmon(string name, montype type, int lv, int atk, int def) { //constructor, used by gamemaster object to generate oopmon
+	oopmon(string name, montype type, int lv) { 
 		this->NAME = name;
 		this->type = type;
 		this->LV = lv;
 		this->MAX_HP = lv * 100; this->HP = MAX_HP;
 		this->MAX_MP = lv * 100; this->MP = MAX_MP;
-		this->ATK = atk;
-		this->DEF = def;
+		this->ATK = lv * 10 * 2;
+		this->DEF = lv * 10 * 2;
+		this->MAX_EXP = lv * 10;
+		CRIT = 0.05;
+		EVAD = 0.05;
+		state = true;
+	}
+	oopmon(int lv) { //constructor, used by gamemaster object to generate oopmon
+		random_device rd;
+		mt19937 gen(rd());
+		uniform_int_distribution<int> distribution(0, 2);
+		int randnum = distribution(gen);
+		switch (randnum) { // set the type of npcmon randomly
+		case 0:this->type = grass; break;
+		case 1:this->type = fire; break;
+		case 2:this->type = water; break;
+		}
+
+		this->NAME = "wild creature"+randnum;
+		this->LV = lv;
+		this->MAX_HP = lv * 100; this->HP = MAX_HP;
+		this->MAX_MP = lv * 100; this->MP = MAX_MP;
+		this->ATK = lv*10*(1+randnum);
+		this->DEF = lv*10*(3-randnum);
 		this->MAX_EXP = lv * 10;
 		CRIT = 0.05;
 		EVAD = 0.05;
@@ -61,18 +84,22 @@ public:
 	string getName() { return this->NAME; }
 	int getHp() { return this->HP; }
 	int getMp() { return this->MP; }
+	int getMaxHp() { return this->MAX_HP; }
+	int getMaxMp() { return this->MAX_MP; }
 	int getAtk() { return this->ATK; }
 	int getDef() { return this->DEF; }
 	int getCrit() { return this->CRIT; }
 	int getEvad() { return this->EVAD; }
 	int getLv() { return this->LV; }
 	int getType() { return this->type; }
+	bool getAlive() { return this->state; }
 
 	//setter
 	void setHp(int value) { this->HP = value; } // used for revive
 	void setMp(int value) { this->MP = value; } //used for revive
 	void setCrit(int value) { this->CRIT = value; } // used for reset after battle
 	void setEvad(int value) { this->EVAD = value; } // used for reset after battle
+	void setState(bool state) { this->state = state; } //set state of oopmon if dead
 
 	//dmg calc
 	void dmgHp(int value) { this->HP -= value; } // used to dmg or heal health by amount
@@ -92,12 +119,12 @@ private:
 	double CRIT;
 	double EVAD;
 	bool state; // alive == true, dead == false
-	montype type; //fire deals grass by 2*dmg, water deals fire by 2*dmg, grass deals water by 2*dmg. coresponding oponents deals only  0.5*dmg
+	montype type; //fire deals grass by 2*dmg, water deals fire by 2*dmg, grass deals water by 2*dmg. corresponding oponents deals only  0.5*dmg
 
 	void tackle(oopmon* op) { // default atk can used without mp, not affected by type
 		int dmg = dmgCalc(this->ATK, op->getDef(), this->CRIT, op->getEvad(), this->type,op->getType(), this->HP * 0.2);
-		cout << "you used tackle!" << endl;
-		cout << "you deal "<<  dmg <<"to "<< op->getName() << endl;
+		cout << this->getName() <<" used tackle!" << endl;
+		cout << this->getName() << " deal "<<  dmg <<"to "<< op->getName() << endl;
 		if (dmg == 0) { cout << "it was not effective!"<<endl; }
 		this->MP -=MAX_MP*0.1;
 		op->dmgHp(dmg);
@@ -105,8 +132,8 @@ private:
 
 	void lightatk(oopmon* op) { // high crit change, low default dmg
 		int dmg = dmgCalc(this->ATK, op->getDef(), this->CRIT+0.3, op->getEvad(), this->type,op->getType(), this->HP * 0.25);
-		cout << "you used light attack!" << endl;
-		cout << "you deal " << dmg << "to " << op->getName() << endl;
+		cout << this->getName() << " used light attack!" << endl;
+		cout << this->getName() << " deal " << dmg << "to " << op->getName() << endl;
 		if (dmg == 0) { cout << "it was not effective!" << endl; }
 		this->MP -= MAX_MP * 0.3;
 		op->dmgHp(dmg);
@@ -114,27 +141,27 @@ private:
 
 	void heavyatk(oopmon* op) { // low crit chance, high default dmb
 		int dmg = dmgCalc(this->ATK, op->getDef(), this->CRIT, op->getEvad(), this->type, op->getType(), this->HP * 0.5);
-		cout << "you used heavy atk!" << endl;
-		cout << "you deal " << dmg << "to " << op->getName() << endl;
+		cout << this->getName() << " used heavy atk!" << endl;
+		cout << this->getName() << " deal " << dmg << "to " << op->getName() << endl;
 		if (dmg == 0) { cout << "it was not effective!" << endl; }
 		this->MP -= MAX_MP * 0.5;
 		op->dmgHp(dmg);
 	}
 
 	void critup() { // self buff to crit
-		cout << "you used Crit up!" << endl;
-		cout << "your crit is increased by 50%!" << endl;
+		cout << this->getName() << " used Crit up!" << endl;
+		cout << this->getName() << "'s crit is increased by 50%!" << endl;
 		this->CRIT += 50;
 	}
 
 	void evadup() { // self buff to evad
-		cout << "you used Evad up!" << endl;
-		cout << "your Evad is increased by 50%!" << endl;
+		cout << this->getName() << " used Evad up!" << endl;
+		cout << this->getName() << "'s Evad is increased by 50%!" << endl;
 		this->EVAD += 50;
 	}
 
 	void itemuse() {
-		cout << "you used bandage!" << endl;
+		cout << this->getName() << " used bandage!" << endl;
 		cout << this->NAME << " recovered 50% health!" << endl;
 		this->dmgHp(-50 * this->MAX_HP);
 	}
@@ -160,3 +187,5 @@ private:
 		else if (randnum <CRIT * 100 && randnum > EVAD * 100) { return atk*skilldmg*typevalue * 2-def; } // can't evade. deal crit dmg
 	}
 };
+
+#endif
