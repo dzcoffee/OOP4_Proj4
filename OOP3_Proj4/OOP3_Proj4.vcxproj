@@ -21,7 +21,6 @@
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Map.cpp" />
-    <ClCompile Include="oopmon.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Map.h" />
