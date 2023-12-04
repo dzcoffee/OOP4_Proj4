@@ -60,6 +60,12 @@ public:
 	virtual bool onCollision(Player& player);
 };
 
+class Wall : public Tile {
+public:
+	Wall(float x, float y, float width, float height);
+	virtual bool onCollision(Player& player);
+};
+
 
 class Map {
 public:
