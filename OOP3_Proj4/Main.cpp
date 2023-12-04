@@ -15,11 +15,13 @@ int main()
     MapManager mapManager(player);
     SideWindow sidewindow1;
     bool isSideWindowVisible = false; // SideWindow의 가시성 여부를 저장하는 변수
+    
+    
 
     while (window.isOpen())
     {
         Event event;
-
+        
         while (window.pollEvent(event))
         {
             if (event.type == Event::Closed)
@@ -75,6 +77,7 @@ int main()
 
         window.clear(Color::White);
 
+        window.setView(mapManager.getView());
         // 그리드 그리기
         mapManager.draw(window);
         //1204 윤도경 추가

@@ -88,12 +88,14 @@ private:
 	PlayerTile playerTile;
 	int playerX;
 	int playerY;
+	View view;
 
 public:
 	MapManager(Player& player);
 	void changeMap(int mapNum, int x, int y);
 	void movePlayer(int dx, int dy);
 	void draw(RenderWindow& window);
+	View& getView();
 };
 
 #endif

@@ -114,6 +114,8 @@ bool Wall::onCollision(Player& player) {
 // MapManager
 MapManager::MapManager(Player& player) : playerTile(Tile::tileSize, Tile::tileSize, Tile::tileSize, Tile::tileSize, player) {
     
+    view = sf::View(sf::FloatRect(0, 0, 1600, 900));
+
     // 맵 생성
     maps.emplace_back(30, 22);
     maps.emplace_back(20, 20);
@@ -215,13 +217,42 @@ void MapManager::movePlayer(int dx, int dy) {
         playerTile.move(nextX * Tile::tileSize, nextY * Tile::tileSize);
         playerX = nextX;
         playerY = nextY;
+        
     }
     if (dx * playerTile.getDirection() < 0) {
         playerTile.inverse();
     }
+    float viewHalfWidth = view.getSize().x / 2;
+    float viewHalfHeight = view.getSize().y / 2;
+
+    float newCenterX = nextX * Tile::tileSize;
+    float newCenterY = nextY * Tile::tileSize;
+
+    // 맵의 크기에 따라 view의 중심 위치를 제한
+
+    float mapPixelWidth = maps[currentMap].width * Tile::tileSize;
+    float mapPixelHeight = maps[currentMap].height * Tile::tileSize;
+
+    if (newCenterX - viewHalfWidth < 0) {
+        newCenterX = viewHalfWidth;
+    }
+    if (newCenterY - viewHalfHeight < 0) {
+        newCenterY = viewHalfHeight;
+    }
+    if (newCenterX + viewHalfWidth > mapPixelWidth) {
+        newCenterX = mapPixelWidth - viewHalfWidth;
+    }
+    if (newCenterY + viewHalfHeight > mapPixelHeight) {
+        newCenterY = mapPixelHeight - viewHalfHeight;
+    }
+    view.setCenter(sf::Vector2f(newCenterX, newCenterY));
 }
 
 void MapManager::draw(RenderWindow& window) {
     maps[currentMap].draw(window);
     playerTile.draw(window);
+}
+
+sf::View& MapManager::getView() {
+    return view; 
 }
