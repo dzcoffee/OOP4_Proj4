@@ -3,9 +3,12 @@
 
 #include <SFML/Graphics.hpp>
 #include <vector>
+#include "Player.h"
 
 using namespace std;
 using namespace sf;
+
+class MapManager;
 
 class Tile {
 protected:
@@ -16,17 +19,51 @@ public:
 	static const int tileSize = 100; // 타일의 크기를 나타내는 정적 멤버 변수 추가
 	virtual ~Tile() = default;
 	void draw(sf::RenderWindow& window);
+	virtual bool onCollision(Player& player) = 0;		// 충돌 시 이벤트
+};
+
+class PlayerTile : public Tile {
+private:
+	Player& player;
+	int direction = -1;
+public:
+	PlayerTile(float x, float y, float width, float height, Player& player);
+	virtual bool onCollision(Player& player);
+	void move(float x, float y);
+	Player& getPlayer();
+	int getDirection();
+	void inverse();
 };
 
 class Grass : public Tile {
 public:
 	Grass(float x, float y, float width, float height);
+	virtual bool onCollision(Player& player);
 };
 
 class Road : public Tile {
 public:
 	Road(float x, float y, float width, float height);
+	virtual bool onCollision(Player& player);
 };
+
+class Potal : public Tile {
+private:
+	int nextMap;
+	int nextX;
+	int nextY;
+	MapManager& mapManager;
+public:
+	Potal(float x, float y, float width, float height, MapManager& manager, int nextMap, int nextX, int nextY);
+	virtual bool onCollision(Player& player);
+};
+
+class Wall : public Tile {
+public:
+	Wall(float x, float y, float width, float height);
+	virtual bool onCollision(Player& player);
+};
+
 
 class Map {
 public:
@@ -42,4 +79,21 @@ public:
 	~Map();
 	void draw(RenderWindow& window);
 };
+
+// 맵 관리
+class MapManager {
+private:
+	vector<Map> maps;
+	int currentMap = 0;
+	PlayerTile playerTile;
+	int playerX;
+	int playerY;
+
+public:
+	MapManager(Player& player);
+	void changeMap(int mapNum, int x, int y);
+	void movePlayer(int dx, int dy);
+	void draw(RenderWindow& window);
+};
+
 #endif
