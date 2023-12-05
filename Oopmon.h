@@ -3,7 +3,8 @@
 
 #include <SFML/Graphics.hpp>
 #include <vector>
-#include<string.h>
+#include <string.h>
+#include "SideWindow.cpp"
 
 //oopmon
 
@@ -28,6 +29,7 @@ public:
 	int getCrit() { return this->CRIT; }
 	int getEvad() { return this->EVAD; }
 	int getLv() { return this->LV; }
+	int getExp() { return this->MAX_EXP; }
 	int getType() { return this->type; }
 	bool getAlive() { return this->state; }
 
@@ -37,6 +39,8 @@ public:
 	void setCrit(int value) { this->CRIT = value; } // used for reset after battle
 	void setEvad(int value) { this->EVAD = value; } // used for reset after battle
 	void setState(bool state) { this->state = state; } //set state of oopmon if dead
+	void setExp(oopmon& op) { this->CUR_EXP += 0.1*op.getExp(); } // get the exp if oopmon won.
+	void setLvup(); // lv up if cur_exp get to the max_exp
 
 	//dmg calc
 	void dmgHp(int value) { this->HP -= value; } // used to dmg or heal health by amount
@@ -67,6 +71,7 @@ private:
 	double EVAD;
 	bool state; // alive == true, dead == false
 	montype type; //fire deals grass by 2*dmg, water deals fire by 2*dmg, grass deals water by 2*dmg. corresponding oponents deals only  0.5*dmg
+	SideWindow* sideWindow;
 };
 
 

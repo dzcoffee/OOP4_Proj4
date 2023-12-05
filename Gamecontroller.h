@@ -3,7 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <vector>
-#include<string.h>
+#include <string.h>
 #include "Oopmon.h"
 #include "player.cpp"
 
