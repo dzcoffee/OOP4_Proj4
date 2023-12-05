@@ -4,7 +4,7 @@
 #include <iostream>
 #include "Player.h"
 #include <SFML/Graphics.hpp>
-#include <string.h>
+#include <string>
 
 class SideWindow {
 private:
@@ -16,8 +16,8 @@ private:
 public:
 	SideWindow();
 	void draw(sf::RenderWindow& window);
-	//void updateText(const string& newText);
-	//void display();
+	void updateText(const string& newText);
+	void display();
 };
 
 #endif

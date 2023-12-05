@@ -17,13 +17,7 @@ SideWindow::SideWindow() {
 	text.setPosition(150, 120);
 	text.setFillColor(sf::Color::Blue);
 
-	// 화살표 초기화 (삼각형)
-	arrow.setPointCount(3);
-	arrow.setPoint(0, sf::Vector2f(0, 0));
-	arrow.setPoint(1, sf::Vector2f(20, 10));
-	arrow.setPoint(2, sf::Vector2f(0, 20));
-	arrow.setFillColor(sf::Color::Black);
-	arrow.setPosition(120, 120);
+
 }
 
 void SideWindow::draw(sf::RenderWindow& window) {
@@ -31,7 +25,7 @@ void SideWindow::draw(sf::RenderWindow& window) {
 	window.draw(text);
 	window.draw(arrow);
 }
-/*
+
 void SideWindow::updateText(const string& newText) {
 	text.setString(newText);
 }
@@ -39,4 +33,3 @@ void SideWindow::updateText(const string& newText) {
 void SideWindow::display() {
 	this->display();
 }
-*/

@@ -1,22 +1,80 @@
-﻿  oopmon.cpp
-C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\Player.h(14,38): error C2061: 구문 오류: 식별자 'montype'
-C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\Player.h(20,23): error C2061: 구문 오류: 식별자 'oopmon'
-C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\Player.h(23,8): error C2143: 구문 오류: ';'이(가) '&' 앞에 없습니다.
-C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\Player.h(23,8): error C4430: 형식 지정자가 없습니다. int로 가정합니다. 참고: C++에서는 기본 int를 지원하지 않습니다.
-C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\Player.h(23,18): error C2238: ';' 앞에 예기치 않은 토큰이 있습니다.
-C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\Player.h(30,9): error C2065: 'oopmon': 선언되지 않은 식별자입니다.
-C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\Player.h(30,2): error C2923: 'std::vector': 'oopmon'은(는) '_Ty' 매개 변수에 대한 올바른 템플릿 형식 인수가 아닙니다.
-C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\Player.h(30,9): message : 'oopmon' 선언을 참조하십시오.
-C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\Player.h(30,2): error C2976: 'std::vector': 템플릿 인수가 너무 적습니다.
+﻿  Main.cpp
+C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\SideWindow.h(19,30): error C4430: 형식 지정자가 없습니다. int로 가정합니다. 참고: C++에서는 기본 int를 지원하지 않습니다.
+C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\SideWindow.h(19,30): error C2143: 구문 오류: ','이(가) '&' 앞에 없습니다.
+C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\Oopmon.h(31,29): warning C4244: 'return': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\Oopmon.h(32,29): warning C4244: 'return': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\Oopmon.h(44,49): warning C4244: '+=': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Map.cpp
+C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\Map.cpp(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\SideWindow.h(19,30): error C4430: 형식 지정자가 없습니다. int로 가정합니다. 참고: C++에서는 기본 int를 지원하지 않습니다.
+C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\SideWindow.h(19,30): error C2143: 구문 오류: ','이(가) '&' 앞에 없습니다.
+C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\Oopmon.h(31,29): warning C4244: 'return': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\Oopmon.h(32,29): warning C4244: 'return': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\Oopmon.h(44,49): warning C4244: '+=': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\Map.cpp(126,66): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\Map.cpp(126,46): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\Map.cpp(134,65): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\Map.cpp(134,45): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\Map.cpp(141,65): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\Map.cpp(141,45): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\Map.cpp(148,65): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\Map.cpp(148,45): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\Map.cpp(155,65): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\Map.cpp(155,45): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\Map.cpp(163,61): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\Map.cpp(163,41): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\Map.cpp(169,61): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\Map.cpp(169,41): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\Map.cpp(178,61): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\Map.cpp(178,41): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\Map.cpp(193,66): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\Map.cpp(193,46): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\Map.cpp(207,43): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\Map.cpp(207,23): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\Map.cpp(215,55): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\Map.cpp(215,31): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  oopmon.cpp
+C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\Player.h(15,38): error C2061: 구문 오류: 식별자 'montype'
+C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\Player.h(21,23): error C2061: 구문 오류: 식별자 'oopmon'
+C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\Player.h(25,8): error C2143: 구문 오류: ';'이(가) '&' 앞에 없습니다.
+C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\Player.h(25,8): error C4430: 형식 지정자가 없습니다. int로 가정합니다. 참고: C++에서는 기본 int를 지원하지 않습니다.
+C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\Player.h(25,18): error C2238: ';' 앞에 예기치 않은 토큰이 있습니다.
+C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\Player.h(31,9): error C2065: 'oopmon': 선언되지 않은 식별자입니다.
+C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\Player.h(31,2): error C2923: 'std::vector': 'oopmon'은(는) '_Ty' 매개 변수에 대한 올바른 템플릿 형식 인수가 아닙니다.
+C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\Player.h(31,9): message : 'oopmon' 선언을 참조하십시오.
+C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\Player.h(31,2): error C2976: 'std::vector': 템플릿 인수가 너무 적습니다.
 C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\vector(494,1): message : 'std::vector' 선언을 참조하십시오.
 C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\Oopmon.h(31,29): warning C4244: 'return': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\Oopmon.h(32,29): warning C4244: 'return': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\Oopmon.h(44,49): warning C4244: '+=': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\oopmon.cpp(49,16): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\oopmon.cpp(49,37): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\oopmon.cpp(51,19): error C2065: 'mainwindow': 선언되지 않은 식별자입니다.
+C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\oopmon.cpp(75,20): error C2065: 'mainwindow': 선언되지 않은 식별자입니다.
+C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\oopmon.cpp(93,19): error C2065: 'mainwindow': 선언되지 않은 식별자입니다.
 C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\oopmon.cpp(101,21): warning C4244: '-=': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\oopmon.cpp(104,19): error C2065: 'mainwindow': 선언되지 않은 식별자입니다.
 C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\oopmon.cpp(112,21): warning C4244: '-=': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\oopmon.cpp(115,19): error C2065: 'mainwindow': 선언되지 않은 식별자입니다.
+C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\oopmon.cpp(122,19): error C2065: 'mainwindow': 선언되지 않은 식별자입니다.
 C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\oopmon.cpp(124,21): warning C4244: '-=': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\oopmon.cpp(131,19): error C2065: 'mainwindow': 선언되지 않은 식별자입니다.
 C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\oopmon.cpp(133,21): warning C4244: '-=': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\oopmon.cpp(140,19): error C2065: 'mainwindow': 선언되지 않은 식별자입니다.
 C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\oopmon.cpp(162,93): warning C4244: 'return': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\oopmon.cpp(163,96): warning C4244: 'return': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  player.cpp
+C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\SideWindow.h(19,30): error C4430: 형식 지정자가 없습니다. int로 가정합니다. 참고: C++에서는 기본 int를 지원하지 않습니다.
+C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\SideWindow.h(19,30): error C2143: 구문 오류: ','이(가) '&' 앞에 없습니다.
+C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\Oopmon.h(31,29): warning C4244: 'return': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\Oopmon.h(32,29): warning C4244: 'return': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\Oopmon.h(44,49): warning C4244: '+=': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  SideWindow.cpp
+C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\SideWindow.h(19,30): error C4430: 형식 지정자가 없습니다. int로 가정합니다. 참고: C++에서는 기본 int를 지원하지 않습니다.
+C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\SideWindow.h(19,30): error C2143: 구문 오류: ','이(가) '&' 앞에 없습니다.
+C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\Oopmon.h(31,29): warning C4244: 'return': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\Oopmon.h(32,29): warning C4244: 'return': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\Oopmon.h(44,49): warning C4244: '+=': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\SideWindow.cpp(35,18): error C2511: 'void SideWindow::updateText(const std::string &)': 오버로드된 멤버 함수가 'SideWindow'에 없습니다.
+C:\Users\kimso\Desktop\oop_proj4_swk\OOP4_Proj4\OOP3_Proj4\SideWindow.h(9,7): message : 'SideWindow' 선언을 참조하십시오.
+  코드를 생성하고 있습니다...

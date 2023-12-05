@@ -47,9 +47,9 @@ oopmon::oopmon(int lv) { //constructor, used by gamemaster object to generate oo
 
 void oopmon::fight(oopmon& op) { // battle command used by player object when combat
 	this->setCrit(0.05); this->setEvad(0.05); // reset the value buffs before the battle
-	//sideWindow->updateText("Choose your action!\n1. Tackle\n2. Light attack\n3. Heavy attack\n 4. Crit up\n5. Evade up\n 6. item");
-	//sideWindow->draw(mainwindow); // draw at mainwindow
-	//sideWindow->display();
+	sideWindow->updateText("Choose your action!\n1. Tackle\n2. Light attack\n3. Heavy attack\n 4. Crit up\n5. Evade up\n 6. item");
+	sideWindow->draw(mainwindow); // draw at mainwindow
+	sideWindow->display();
 	sf::Event event;
 	switch (event.key.code) {
 	case sf::Keyboard::Num1:
@@ -71,9 +71,9 @@ void oopmon::fight(oopmon& op) { // battle command used by player object when co
 		itemuse();
 		break;
 	default:
-		//sideWindow->updateText("Wrong input! Choose again");
-		//sideWindow->draw(mainwindow);
-		//sideWindow->display();
+		sideWindow->updateText("Wrong input! Choose again");
+		sideWindow->draw(mainwindow);
+		sideWindow->display();
 		break;
 	}
 }
@@ -89,9 +89,9 @@ void oopmon::tackle(oopmon& op) { // default atk can used without mp
 	string message = this->getName() + " used tackle!\n" + this->getName() + " dealt " + to_string(dmg) + " to " + op.getName() + "\n";
 	if (dmg == 0) { message += "It was not effective!\n"; }
 	op.dmgHp(dmg);
-	//sideWindow->updateText(message);
-	//sideWindow->draw(mainwindow);
-	//sideWindow->display();
+	sideWindow->updateText(message);
+	sideWindow->draw(mainwindow);
+	sideWindow->display();
 }
 
 void oopmon::lightatk(oopmon& op) { // high crit change, low default dmg
@@ -100,9 +100,9 @@ void oopmon::lightatk(oopmon& op) { // high crit change, low default dmg
 	if (dmg == 0) { message += "It was not effective!\n"; }
 	this->MP -= MAX_MP * 0.3;
 	op.dmgHp(dmg);
-	//sideWindow->updateText(message);
-	//sideWindow->draw(mainwindow);
-	//sideWindow->display();
+	sideWindow->updateText(message);
+	sideWindow->draw(mainwindow);
+	sideWindow->display();
 }
 
 void oopmon::heavyatk(oopmon& op) { // low crit chance, high default dmg
@@ -111,34 +111,34 @@ void oopmon::heavyatk(oopmon& op) { // low crit chance, high default dmg
 	if (dmg == 0) { message += "It was not effective!\n"; }
 	this->MP -= MAX_MP * 0.5;
 	op.dmgHp(dmg);
-	//sideWindow->updateText(message);
-	//sideWindow->draw(mainwindow);
-	//sideWindow->display();
+	sideWindow->updateText(message);
+	sideWindow->draw(mainwindow);
+	sideWindow->display();
 }
 
 void oopmon::critup() { // self buff to crit
 	string message = this->getName() + " used Crit up!\n" + this->getName() + "'s crit is increased by 50%!\n";
-	//sideWindow->updateText(message);
-	//sideWindow->draw(mainwindow);
-	//sideWindow->display();
+	sideWindow->updateText(message);
+	sideWindow->draw(mainwindow);
+	sideWindow->display();
 	this->MP -= MAX_MP * 0.15;
 	this->CRIT += (1.0 - this->getCrit()) / 2;
 }
 
 void oopmon::evadup() { // self buff to evad
 	string message = this->getName() + " used Evad up!\n" + this->getName() + "'s Evad is increased!\n";
-	//sideWindow->updateText(message);
-	//sideWindow->draw(mainwindow);
-	//sideWindow->display();
+	sideWindow->updateText(message);
+	sideWindow->draw(mainwindow);
+	sideWindow->display();
 	this->MP -= MAX_MP * 0.15;
 	this->EVAD += (1.0 - this->getEvad()) / 2;
 }
 
 void oopmon::itemuse() {
 	string message = this->getName() + " used bandage!\n" + this->getName() + " recovered 50% health!\n";
-	//sideWindow->updateText(message);
-	//sideWindow->draw(mainwindow);
-	//sideWindow->display();
+	sideWindow->updateText(message);
+	sideWindow->draw(mainwindow);
+	sideWindow->display();
 	this->dmgHp(-50 * this->MAX_HP);
 }
 

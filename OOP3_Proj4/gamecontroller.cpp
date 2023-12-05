@@ -9,7 +9,11 @@
 using namespace std;
 
 gamecontroller::gamecontroller(const Player& player) {
-	this->player = player;
+	this->player = player; // 복사
+	sideWindow = new SideWindow();
+
+	// player에 gamecontroller 객체의 포인터를 전달
+	this->player.setGameController(this);
 };
 
 void gamecontroller::battle() { // if player encounters battle
@@ -20,17 +24,17 @@ void gamecontroller::battle() { // if player encounters battle
 	}
 
 	if (npcmon->getHp() <= 0) {
-		sideWindow1.updateText(npcmon->getName() + "'s hp is 0!\n");
+		sideWindow->updateText(npcmon->getName() + "'s hp is 0!\n");
 		player.curmon().setExp(*npcmon);
 		if (player.curmon().getExp() >= player.curmon().getExp()) {
 			player.curmon().setLvup();
-			sideWindow.updateText(player.curmon().getName() + " leveled up!\n");
+			sideWindow->updateText(player.curmon().getName() + " leveled up!\n");
 		}
 		player.addMonToMonList(*npcmon);
-		sideWindow.updateText(player.curmon().getName() + " added " + npcmon->getName() + " to the monlist!\n");
+		sideWindow->updateText(player.curmon().getName() + " added " + npcmon->getName() + " to the monlist!\n");
 	}
-	else { sideWindow.updateText(player.curmon().getName() + " Faded!\n"); }
-	sideWindow.updateText("Battle ends!\n");
+	else { sideWindow->updateText(player.curmon().getName() + " Faded!\n"); }
+	sideWindow->updateText("Battle ends!\n");
 	sideWindow->draw(mainwindow); // draw at mainwindow
 	sideWindow->display();
 }
