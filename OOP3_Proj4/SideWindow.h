@@ -9,16 +9,21 @@
 class SideWindow {
 private:
 	sf::RectangleShape box;
+	sf::ConvexShape arrow;
 	sf::Text text; // ±ÛÀÚ
 	sf::Font font;
 	bool isActivate = false;
-
+	int focused = 0;
+	void moveArrow();
 public:
 	SideWindow();
 	void draw(sf::RenderWindow& window);
 	void updateText(const std::string& newText);
 	bool getActivate() { return isActivate; }
-	void setActivate(bool value) { isActivate = value; }
+	void setActivate(bool value);
+	int getFocused() { return focused; }
+	void focusUp();
+	void focusDown();
 };
 
 #endif

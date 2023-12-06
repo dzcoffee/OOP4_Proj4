@@ -41,9 +41,11 @@ int main()
                         break;
                     case Keyboard::Up:
                         //Left와 동일
+                        controller.selectionUp();
                         break;
                     case Keyboard::Down:
                         //Left와 동일
+                        controller.selectionDown();
                         break;
                     case Keyboard::X:
                         //isSideWindowVisible = !isSideWindowVisible;

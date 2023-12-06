@@ -56,6 +56,14 @@ void gamecontroller::enter() {
 	}
 }
 
+void gamecontroller::selectionUp() {
+	sideWindow.focusUp();
+}
+
+void gamecontroller::selectionDown() {
+	sideWindow.focusDown();
+}
+
 oopmon* gamecontroller::create(int maplv) { // create oopmon
 	return new oopmon(maplv);	
 }

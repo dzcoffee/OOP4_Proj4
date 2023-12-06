@@ -17,7 +17,8 @@ public:
 	void draw(sf::RenderWindow& window);
 	bool isActivate();
 	void enter();
-
+	void selectionUp();
+	void selectionDown();
 private:
 	Player& player; // player object
 	oopmon* create(int maplv);
