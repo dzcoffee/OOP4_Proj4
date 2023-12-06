@@ -15,13 +15,15 @@ public:
 	gamecontroller(Player& player);
 	void battle();
 	void draw(sf::RenderWindow& window);
-	bool inBattle();
+	bool isActivate();
+	void enter();
+
 private:
 	Player& player; // player object
 	oopmon* create(int maplv);
 	void npccontrol(oopmon& npcmon, oopmon& op);
 	SideWindow sideWindow;
-	bool _inBattle = false;
+	bool inBattle = false;
 };
 
 

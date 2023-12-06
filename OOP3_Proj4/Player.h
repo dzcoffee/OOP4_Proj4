@@ -20,9 +20,9 @@ public:
 	void displayInventory();				// 인벤토리 출력
 	void addMonToMonList(oopmon newMon);	// 리스트에 몬스터 추가
 	void displayMonList();					// 몬스터 리스트 출력
-	
 	oopmon& curmon();						// 플레이어가 현재 선택 중인 몬스터
 
+	void setMapLv(int value) { curr_maplv = value; }
 	int getMapLv() { return curr_maplv; }	// curr_maplv의 getter
 
 private:

@@ -11,11 +11,14 @@ private:
 	sf::RectangleShape box;
 	sf::Text text; // ±ÛÀÚ
 	sf::Font font;
+	bool isActivate = false;
 
 public:
 	SideWindow();
 	void draw(sf::RenderWindow& window);
 	void updateText(const std::string& newText);
+	bool getActivate() { return isActivate; }
+	void setActivate(bool value) { isActivate = value; }
 };
 
 #endif

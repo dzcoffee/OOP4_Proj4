@@ -12,8 +12,8 @@ gamecontroller::gamecontroller(Player& player) : player(player) {
 	//this->player = player;
 };
 
-bool gamecontroller::inBattle() {
-	return _inBattle;
+bool gamecontroller::isActivate() {
+	return sideWindow.getActivate();
 }
 
 void gamecontroller::draw(sf::RenderWindow& window) {
@@ -21,26 +21,39 @@ void gamecontroller::draw(sf::RenderWindow& window) {
 }
 
 void gamecontroller::battle() { // if player encounters battle
-	oopmon *npcmon = create(player.getMapLv()); // create an oopmon based on the map lv where the player is in.
-	while (player.curmon().getHp() && npcmon->getHp()) { // while either player or npc's mop is alive
-		player.curmon().fight(*npcmon, sideWindow); //player's turn
-		npccontrol(*npcmon, player.curmon()); // npc's turn
-	}
+	sideWindow.updateText("battle!");
+	inBattle = true;
+	sideWindow.setActivate(true);
+	//oopmon *npcmon = create(player.getMapLv()); // create an oopmon based on the map lv where the player is in.
+	//while (player.curmon().getHp() && npcmon->getHp()) { // while either player or npc's mop is alive
+	//	player.curmon().fight(*npcmon, sideWindow); //player's turn
+	//	npccontrol(*npcmon, player.curmon()); // npc's turn
+	//}
 
-	if (npcmon->getHp() <= 0) {
-		sideWindow.updateText(npcmon->getName() + "'s hp is 0!\n");
-		player.curmon().setExp(*npcmon);
-		if (player.curmon().getExp() >= player.curmon().getExp()) {
-			player.curmon().setLvup();
-			sideWindow.updateText(player.curmon().getName() + " leveled up!\n");
-		}
-		player.addMonToMonList(*npcmon);
-		sideWindow.updateText(player.curmon().getName() + " added " + npcmon->getName() + " to the monlist!\n");
-	}
-	else { sideWindow.updateText(player.curmon().getName() + " Faded!\n");}
-	sideWindow.updateText("Battle ends!\n");
+	//if (npcmon->getHp() <= 0) {
+	//	sideWindow.updateText(npcmon->getName() + "'s hp is 0!\n");
+	//	player.curmon().setExp(*npcmon);
+	//	if (player.curmon().getExp() >= player.curmon().getExp()) {
+	//		player.curmon().setLvup();
+	//		sideWindow.updateText(player.curmon().getName() + " leveled up!\n");
+	//	}
+	//	player.addMonToMonList(*npcmon);
+	//	sideWindow.updateText(player.curmon().getName() + " added " + npcmon->getName() + " to the monlist!\n");
+	//}
+	//else { sideWindow.updateText(player.curmon().getName() + " Faded!\n");}
+	//sideWindow.updateText("Battle ends!\n");
 	//sideWindow->draw(mainwindow); // draw at mainwindow
 	//sideWindow->display();
+}
+
+void gamecontroller::enter() {
+	if (inBattle) {
+		sideWindow.updateText("Battle ends!");
+		inBattle = false;
+	}
+	else {
+		sideWindow.setActivate(false);
+	}
 }
 
 oopmon* gamecontroller::create(int maplv) { // create oopmon

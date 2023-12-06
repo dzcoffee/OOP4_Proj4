@@ -31,7 +31,7 @@ int main()
             //1204 윤도경 추가
             // 키보드인풋
             if (event.type == Event::KeyPressed) {
-                if (isSideWindowVisible) { //사이드 윈도우가 켜졌을 떄만
+                if (controller.isActivate()) { //사이드 윈도우가 켜졌을 떄만
                     switch (event.key.code) {
                     case Keyboard::Left:
                         //아마 화살표 움직이고 어떤 함수를 실행시킬 id값을 설정하게 하면 될 듯
@@ -46,10 +46,13 @@ int main()
                         //Left와 동일
                         break;
                     case Keyboard::X:
-                        isSideWindowVisible = !isSideWindowVisible;
+                        //isSideWindowVisible = !isSideWindowVisible;
                         break;
                     case Keyboard::Z:
                         //해당 위치에 있는 함수 실행
+                        break;
+                    case Keyboard::Enter:
+                        controller.enter();
                         break;
                     }
 
@@ -68,26 +71,27 @@ int main()
                     case Keyboard::Down:
                         mapManager.movePlayer(0, 1);
                         break;
-                    case Keyboard::X:
-                        isSideWindowVisible = !isSideWindowVisible;
-                        break;
+                        /*case Keyboard::X:
+                            isSideWindowVisible = !isSideWindowVisible;
+                            break;
+                        }*/
                     }
                 }
             }
+
+            window.clear(Color::White);
+
+            // 그리드 그리기
+            mapManager.draw(window);
+            //1204 윤도경 추가
+            if (controller.isActivate()) // X키를 누른 상태에서만 켜짐
+            {
+                //sidewindow1.draw(window); // SideWindow 그리기
+                controller.draw(window);
+            }
+
+            window.display();
         }
-
-        window.clear(Color::White);
-
-        // 그리드 그리기
-        mapManager.draw(window);
-        //1204 윤도경 추가
-        if (isSideWindowVisible) // X키를 누른 상태에서만 켜짐
-        {
-            //sidewindow1.draw(window); // SideWindow 그리기
-            controller.draw(window);
-        }
-
-        window.display();
     }
 
     return 0;

@@ -1,6 +1,8 @@
 #include "Map.h"
 #include <vector>
 #include <iostream>
+#include <cstdlib>
+#include <ctime>
 
 // Map
 Map::Map(int width, int height) : width(width), height(height), grid(width, std::vector<Tile*>(height, nullptr)) {
@@ -81,7 +83,10 @@ Grass::Grass(float x, float y, float width, float height, gamecontroller& contro
 }
 
 bool Grass::onCollision(Player& player) {
-    
+    srand((unsigned int)time(NULL));
+    if (rand() % 4 == 0) {
+        controller.battle();
+    }
     return true;
 }
 
@@ -210,6 +215,7 @@ void MapManager::changeMap(int mapNum, int x, int y) {
     playerX = x;
     playerY = y;
     playerTile.move(x * Tile::tileSize, y * Tile::tileSize);
+    playerTile.getPlayer().setMapLv(mapNum);
 }
 
 void MapManager::movePlayer(int dx, int dy) {
