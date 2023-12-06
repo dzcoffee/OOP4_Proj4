@@ -23,7 +23,7 @@ void gamecontroller::draw(sf::RenderWindow& window) {
 void gamecontroller::battle() { // if player encounters battle
 	sideWindow.updateText("battle!");
 	inBattle = true;
-	sideWindow.setActivate(true);
+	sideWindow.setEnable();
 	//oopmon *npcmon = create(player.getMapLv()); // create an oopmon based on the map lv where the player is in.
 	//while (player.curmon().getHp() && npcmon->getHp()) { // while either player or npc's mop is alive
 	//	player.curmon().fight(*npcmon, sideWindow); //player's turn
@@ -52,7 +52,7 @@ void gamecontroller::enter() {
 		inBattle = false;
 	}
 	else {
-		sideWindow.setActivate(false);
+		sideWindow.setDisable();
 	}
 }
 

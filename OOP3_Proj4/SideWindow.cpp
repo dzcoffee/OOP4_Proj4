@@ -44,12 +44,14 @@ void SideWindow::focusDown() {
 	}
 }
 
-void SideWindow::setActivate(bool value) {
-	isActivate = value;
-	if (value) {
-		focused = 0;
-		moveArrow();
-	}
+void SideWindow::setEnable() {
+	isActivate = true;
+	focused = 0;
+	moveArrow();
+}
+
+void SideWindow::setDisable() {
+	isActivate = false;
 }
 
 void SideWindow::draw(sf::RenderWindow& window) {
