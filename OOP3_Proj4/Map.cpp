@@ -14,7 +14,7 @@ Map::Map(int width, int height) : width(width), height(height), grid(width, std:
 Map::~Map() {
     for (int i = 0; i < width; ++i) {
         for (int j = 0; j < height; ++j) {
-            delete grid[i][j]; // ÎèôÏ†Å Ìï†ÎãπÌïú Tile Í∞ùÏ≤¥ Î©îÎ™®Î¶¨ Ìï¥Ï†ú
+            delete grid[i][j]; // µø¿˚ «“¥Á«— Tile ∞¥√º ∏ﬁ∏∏Æ «ÿ¡¶
         }
     }
 }
@@ -28,17 +28,22 @@ void Map::draw(RenderWindow& window) {
 }
 
 // Tile
-Tile::Tile(float x, float y, float width, float height, const std::string& textureFile) {
+Tile::Tile(float x, float y, float width, float height, const std::string& textureFile, bool canPass) {
     shape.setPosition(x, y);
     shape.setSize(sf::Vector2f(width, height));
     if (!texture.loadFromFile(textureFile)) {
         std::cout << "Failed to load texture from " << textureFile << std::endl;
     }
     shape.setTexture(&texture);
+    this->_canPass = canPass;
 }
 
 void Tile::draw(sf::RenderWindow& window) {
     window.draw(shape);
+}
+
+bool Tile::canPass() {
+    return _canPass;
 }
 
 // PlayerTile
@@ -71,12 +76,12 @@ void PlayerTile::inverse() {
 }
 
 // Grass
-Grass::Grass(float x, float y, float width, float height) : Tile(x, y, width, height, "grass1.png") {
+Grass::Grass(float x, float y, float width, float height, gamecontroller& controller) : Tile(x, y, width, height, "grass1.png"), controller(controller) {
 
 }
 
 bool Grass::onCollision(Player& player) {
-
+    
     return true;
 }
 
@@ -92,7 +97,7 @@ bool Road::onCollision(Player& player) {
 
 // Potal
 Potal::Potal(float x, float y, float width, float height, MapManager& mapManager, int nextMap, int nextX, int nextY)
-    : Tile(x,y,width,height, "Portal.png"), mapManager(mapManager), nextMap(nextMap), nextX(nextX), nextY(nextY)
+    : Tile(x, y, width, height, "Portal.png"), mapManager(mapManager), nextMap(nextMap), nextX(nextX), nextY(nextY)
 {
 
 }
@@ -102,7 +107,7 @@ bool Potal::onCollision(Player& player) {
     return false;
 }
 
-Wall::Wall(float x, float y, float width, float height) : Tile(x, y, width, height,"wall_normal1.png") {
+Wall::Wall(float x, float y, float width, float height) : Tile(x, y, width, height, "wall_normal1.png", false) {
 
 }
 
@@ -112,60 +117,60 @@ bool Wall::onCollision(Player& player) {
 }
 
 // MapManager
-MapManager::MapManager(Player& player) : playerTile(Tile::tileSize, Tile::tileSize, Tile::tileSize, Tile::tileSize, player) {
-    
-    // Îßµ ÏÉùÏÑ±
+MapManager::MapManager(Player& player, gamecontroller& controller) : playerTile(Tile::tileSize, Tile::tileSize, Tile::tileSize, Tile::tileSize, player) {
+
+    // ∏  ª˝º∫
     maps.emplace_back(30, 22);
     maps.emplace_back(20, 20);
     {
         Map& map = maps[0];
 
-        // Ï†ÑÏ≤¥Î•º grassÎ°ú Ï±ÑÏö∞Í∏∞
+        // ¿¸√º∏¶ grass∑Œ √§øÏ±‚
         for (int i = 0; i < map.width; ++i) {
             for (int j = 0; j < map.height; ++j) {
-                map.grid[i][j] = new Grass(i * Tile::tileSize, j * Tile::tileSize, Tile::tileSize, Tile::tileSize);
+                map.grid[i][j] = new Grass(i * Tile::tileSize, j * Tile::tileSize, Tile::tileSize, Tile::tileSize, controller);
             }
         }
 
-        // Ï£ºÏñ¥ÏßÑ Î≤îÏúÑÎ•º concreteÏúºÎ°ú Ï±ÑÏö∞Í∏∞
+        // ¡÷æÓ¡¯ π¸¿ß∏¶ concrete¿∏∑Œ √§øÏ±‚
         for (int i = 0; i <= 29; ++i) {
             for (int j = 0; j <= 1; ++j) {
-                delete map.grid[i][j]; // Í∏∞Ï°¥ Grass ÌÉÄÏùº Í∞ùÏ≤¥ ÏÇ≠Ï†ú
+                delete map.grid[i][j]; // ±‚¡∏ Grass ≈∏¿œ ∞¥√º ªË¡¶
                 map.grid[i][j] = new Wall(i * Tile::tileSize, j * Tile::tileSize, Tile::tileSize, Tile::tileSize);
             }
         }
 
         for (int i = 28; i <= 29; ++i) {
             for (int j = 2; j <= 19; ++j) {
-                delete map.grid[i][j]; // Í∏∞Ï°¥ Grass ÌÉÄÏùº Í∞ùÏ≤¥ ÏÇ≠Ï†ú
+                delete map.grid[i][j]; // ±‚¡∏ Grass ≈∏¿œ ∞¥√º ªË¡¶
                 map.grid[i][j] = new Wall(i * Tile::tileSize, j * Tile::tileSize, Tile::tileSize, Tile::tileSize);
             }
         }
 
         for (int i = 0; i <= 29; ++i) {
             for (int j = 20; j <= 21; ++j) {
-                delete map.grid[i][j]; // Í∏∞Ï°¥ Grass ÌÉÄÏùº Í∞ùÏ≤¥ ÏÇ≠Ï†ú
+                delete map.grid[i][j]; // ±‚¡∏ Grass ≈∏¿œ ∞¥√º ªË¡¶
                 map.grid[i][j] = new Wall(i * Tile::tileSize, j * Tile::tileSize, Tile::tileSize, Tile::tileSize);
             }
         }
 
         for (int i = 0; i <= 1; ++i) {
             for (int j = 8; j <= 19; ++j) {
-                delete map.grid[i][j]; // Í∏∞Ï°¥ Grass ÌÉÄÏùº Í∞ùÏ≤¥ ÏÇ≠Ï†ú
+                delete map.grid[i][j]; // ±‚¡∏ Grass ≈∏¿œ ∞¥√º ªË¡¶
                 map.grid[i][j] = new Wall(i * Tile::tileSize, j * Tile::tileSize, Tile::tileSize, Tile::tileSize);
             }
         }
 
-        
+
         for (int i = 2; i <= 11; ++i) {
             int j = 8;
-            delete map.grid[i][j]; // Í∏∞Ï°¥ Grass ÌÉÄÏùº Í∞ùÏ≤¥ ÏÇ≠Ï†ú
+            delete map.grid[i][j]; // ±‚¡∏ Grass ≈∏¿œ ∞¥√º ªË¡¶
             map.grid[i][j] = new Wall(i * Tile::tileSize, j * Tile::tileSize, Tile::tileSize, Tile::tileSize);
         }
 
         for (int j = 2; j <= 14; ++j) {
             int i = 15;
-            delete map.grid[i][j]; // Í∏∞Ï°¥ Grass ÌÉÄÏùº Í∞ùÏ≤¥ ÏÇ≠Ï†ú
+            delete map.grid[i][j]; // ±‚¡∏ Grass ≈∏¿œ ∞¥√º ªË¡¶
             map.grid[i][j] = new Wall(i * Tile::tileSize, j * Tile::tileSize, Tile::tileSize, Tile::tileSize);
         }
 
@@ -174,15 +179,15 @@ MapManager::MapManager(Player& player) : playerTile(Tile::tileSize, Tile::tileSi
                 continue;
             }
             int j = 14;
-            delete map.grid[i][j]; // Í∏∞Ï°¥ Grass ÌÉÄÏùº Í∞ùÏ≤¥ ÏÇ≠Ï†ú
+            delete map.grid[i][j]; // ±‚¡∏ Grass ≈∏¿œ ∞¥√º ªË¡¶
             map.grid[i][j] = new Wall(i * Tile::tileSize, j * Tile::tileSize, Tile::tileSize, Tile::tileSize);
         }
- 
+
 
         delete map.grid[0][4];
-        map.grid[0][4] = new Potal(10 * Tile::tileSize, 5 * Tile::tileSize, Tile::tileSize, Tile::tileSize, *this, 1, 1, 5);
+        map.grid[0][4] = new Potal(0 * Tile::tileSize, 4 * Tile::tileSize, Tile::tileSize, Tile::tileSize, *this, 1, 0, 5);
         delete map.grid[0][5];
-        map.grid[0][5] = new Potal(10 * Tile::tileSize, 5 * Tile::tileSize, Tile::tileSize, Tile::tileSize, *this, 1, 1, 5);
+        map.grid[0][5] = new Potal(0 * Tile::tileSize, 5 * Tile::tileSize, Tile::tileSize, Tile::tileSize, *this, 1, 0, 5);
     }
 
     {
@@ -190,11 +195,11 @@ MapManager::MapManager(Player& player) : playerTile(Tile::tileSize, Tile::tileSi
 
         for (int i = 0; i < map.width; ++i) {
             for (int j = 0; j < map.height; ++j) {
-                map.grid[i][j] = new Grass(i * Tile::tileSize, j * Tile::tileSize, Tile::tileSize, Tile::tileSize);
+                map.grid[i][j] = new Grass(i * Tile::tileSize, j * Tile::tileSize, Tile::tileSize, Tile::tileSize, controller);
             }
-        }    
+        }
         delete map.grid[0][5];
-        map.grid[0][5] = new Potal(0, 5 * Tile::tileSize, Tile::tileSize, Tile::tileSize, *this, 0, 9, 5);
+        map.grid[0][5] = new Potal(0, 5 * Tile::tileSize, Tile::tileSize, Tile::tileSize, *this, 0, 0, 4);
     }
 
     changeMap(0, 5, 5);
@@ -211,10 +216,13 @@ void MapManager::movePlayer(int dx, int dy) {
     int nextX = playerX + dx;
     int nextY = playerY + dy;
     if (nextX < 0 || nextX >= maps[currentMap].width || nextY < 0 || nextY >= maps[currentMap].height) return;
-    if (maps[currentMap].grid[nextX][nextY]->onCollision(playerTile.getPlayer())) {
+    if (maps[currentMap].grid[nextX][nextY]->canPass()) {
         playerTile.move(nextX * Tile::tileSize, nextY * Tile::tileSize);
         playerX = nextX;
         playerY = nextY;
+        maps[currentMap].grid[nextX][nextY]->onCollision(playerTile.getPlayer());
+        /*if (maps[currentMap].grid[nextX][nextY]->onCollision(playerTile.getPlayer())) {
+        }*/
     }
     if (dx * playerTile.getDirection() < 0) {
         playerTile.inverse();
