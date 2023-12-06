@@ -1,49 +1,53 @@
-#include"oopmon.cpp"
-#include"player.cpp"
-#include"Map.cpp"
-#include<iostream>
-#include<string.h>
-#include<vector>
+#include "Oopmon.h"
+#include "player.cpp"
+#include "Gamecontroller.h"
+#include "Map.h"
+#include <iostream>
+#include <string.h>
+#include <vector>
 
-class gamecontroller {
-public:
-	gamecontroller(const Player&player) {
-		this->player = player;
-		create();
-	};
+using namespace std;
 
-	void battle() { // if player encounters battle
-		while (player.curmon().getHp() && mapmonList[0].getHp()) { // while neither player or npc's mop is alive
-			player.curmon().fight(mapmonList[0]); //player's turn
-			npccontrol(player.curmon()); // npc's turn
-		}
-
-		if (mapmonList[0].getHp() == 0) { // the battle ends and if player won
-			vector<oopmon>::iterator it = mapmonList.begin();
-			if (mapmonList[0].getHp() <= 0) {
-				cout << mapmonList[0].getName() << "'s hp is 0!\n";
-				mapmonList.erase(it);
-			}
-			player.addMonToMonList(mapmonList[0]); // add the npcmon into player's monlist
-		}
-		cout << "battle ends!" << endl;
-	}
-
-private:
-	vector<oopmon> mapmonList; // oopmon list of current map. scaled off with map lv or player lv
-	string currmap; // current map where player is in
-	Player player; // player object
-
-	void create() { // create oopmon of the map when player entered
-		for(int i=0;i<6;i++) mapmonList.push_back(oopmon(currmap.lv())); // create oopmon based on map's lv
-	}
-	void npccontrol(oopmon *op) { // control the battle of npc oopmon (oponent)
-		
-		//need more precise logic for npc oopmon's action choice
-
-		if (mapmonList[0].getHp() / mapmonList[0].getMaxHp() >= 0.5) mapmonList[0].heavyatk(player.curmon()); // if hp of npc mon is higher than 50%, use heavyatk to player's mon
-		if (mapmonList[0].getHp() / mapmonList[0].getMaxHp() <0.5 && mapmonList[0].getHp() / mapmonList[0].getMaxHp() >= 0.3) mapmonList[0].lightatk(player.curmon());
-		if (mapmonList[0].getHp() / mapmonList[0].getMaxHp() < 0.3) mapmonList[0].evadup()); // if hp of npc mon is low, try to evade up
-	}
-
+gamecontroller::gamecontroller(const Player& player) {
+	this->player = player;
 };
+
+void gamecontroller::battle() { // if player encounters battle
+	oopmon *npcmon = create(player.curr_maplv); // create an oopmon based on the map lv where the player is in.
+	while (player.curmon().getHp() && npcmon->getHp()) { // while either player or npc's mop is alive
+		player.curmon().fight(*npcmon); //player's turn
+		npccontrol(*npcmon, player.curmon()); // npc's turn
+	}
+
+	if (npcmon->getHp() <= 0) {
+		sideWindow.updateText(npcmon->getName() + "'s hp is 0!\n");
+		player.curmon().setExp(*npcmon);
+		if (player.curmon().getExp() >= player.curmon().getExp()) {
+			player.curmon().setLvup();
+			sideWindow.updateText(player.curmon().getName() + " leveled up!\n");
+		}
+		player.addMonToMonList(*npcmon);
+		sideWindow.updateText(player.curmon().getName() + " added " + npcmon->getName() + " to the monlist!\n");
+	}
+	else { sideWindow.updateText(player.curmon().getName() + " Faded!\n");}
+	sideWindow.updateText("Battle ends!\n");
+	sideWindow->draw(mainwindow); // draw at mainwindow
+	sideWindow->display();
+}
+
+oopmon* gamecontroller::create(int maplv) { // create oopmon
+	return new oopmon(maplv);	
+}
+
+void gamecontroller::npccontrol(oopmon&npcmon, oopmon& op) { // control the battle of npc oopmon (oponent)
+	//check it's hp & mp first
+	if (static_cast<double>(npcmon.getHp()) / static_cast<double>(npcmon.getMaxHp()) >= 0.5) { //if npcmon's hp is more than 50%
+		if (npcmon.getMp() >= npcmon.getMaxMp() * 0.5) { npcmon.heavyatk(op); } // sufficient mana to heavyatk
+		else if (npcmon.getMp() >= npcmon.getMaxMp() * 0.3) { npcmon.lightatk(op); } // less mana so can do lightatk
+		else { npcmon.tackle(op); }//no mana, can only do tackle
+	}
+	else{ //if npcmon's hp is less than 50%
+		if (npcmon.getMp() >= npcmon.getMaxMp() * 0.15) { npcmon.evadup(); }// if npcmon's mp is sufficient to use evad up, use it.
+		else { npcmon.tackle(op); } // no mana and hp. only can do tackle
+	}
+}
