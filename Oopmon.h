@@ -1,10 +1,11 @@
-#ifndef _OOPMON_H_
-#define _OOPMON_H_
-
 #include <SFML/Graphics.hpp>
 #include <vector>
-#include <string.h>
-#include "SideWindow.cpp"
+#include <string>
+#include "SideWindow.h"
+
+
+#ifndef _OOPMON_H_
+#define _OOPMON_H_
 
 //oopmon
 
@@ -13,13 +14,14 @@ public:
 	friend class gamecontroller;
 	enum montype { grass, fire, water }; //grass==0, fire==1, water==2
 
-	oopmon(std::string name, enum type, int lv);
+	oopmon(std::string name, montype, int lv);
 	oopmon(int lv);
 
-	void fight(oopmon& op);
+	//void fight(oopmon& op, int choice);
 
 	//getter
 	std::string getName() { return this->NAME; }
+	std::string getOutput() { return this->output; }
 	int getHp() { return this->HP; }
 	int getMp() { return this->MP; }
 	int getMaxHp() { return this->MAX_HP; }
@@ -58,6 +60,7 @@ public:
 
 private:
 	std::string NAME; //name of oopmon
+	std::string output=""; // battle result etc
 	int HP; //current health
 	int MP; //current mana
 	int MAX_HP; //max health
@@ -71,7 +74,6 @@ private:
 	double EVAD;
 	bool state; // alive == true, dead == false
 	montype type; //fire deals grass by 2*dmg, water deals fire by 2*dmg, grass deals water by 2*dmg. corresponding oponents deals only  0.5*dmg
-	SideWindow* sideWindow;
 };
 
 

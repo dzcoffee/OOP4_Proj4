@@ -1,24 +1,77 @@
 #include "Oopmon.h"
-#include "player.cpp"
+#include "Player.h"
 #include "Gamecontroller.h"
 #include "Map.h"
 #include <iostream>
-#include <string.h>
+#include <string>
 #include <vector>
 
 using namespace std;
 
-gamecontroller::gamecontroller(const Player& player) {
-	this->player = player;
+gamecontroller::gamecontroller(Player& player) : player(player) {
+	//this->player = player;
 };
 
-void gamecontroller::battle() { // if player encounters battle
-	oopmon *npcmon = create(player.curr_maplv); // create an oopmon based on the map lv where the player is in.
-	while (player.curmon().getHp() && npcmon->getHp()) { // while either player or npc's mop is alive
-		player.curmon().fight(*npcmon); //player's turn
-		npccontrol(*npcmon, player.curmon()); // npc's turn
-	}
+bool gamecontroller::isActivate() {
+	return sideWindow.getActivate();
+}
 
+void gamecontroller::draw(sf::RenderWindow& window) {
+	sideWindow.draw(window);
+}
+
+void gamecontroller::fight(int select, oopmon* npcmon) {
+	switch (select) {
+	case 1:
+		player.curmon().tackle(*npcmon);
+		sideWindow.updateText(player.curmon().getOutput());
+		npccontrol(*npcmon, player.curmon());
+		sideWindow.updateText(npcmon->getOutput());
+		break;
+	case 2:
+		player.curmon().lightatk(*npcmon);
+		sideWindow.updateText(player.curmon().getOutput());
+		npccontrol(*npcmon, player.curmon());
+		sideWindow.updateText(npcmon->getOutput());
+		break;
+	case 3:
+		player.curmon().heavyatk(*npcmon);
+		sideWindow.updateText(player.curmon().getOutput());
+		npccontrol(*npcmon, player.curmon());
+		sideWindow.updateText(npcmon->getOutput());
+		break;
+	case 4:
+		player.curmon().critup();
+		sideWindow.updateText(player.curmon().getOutput());
+		npccontrol(*npcmon, player.curmon());
+		sideWindow.updateText(npcmon->getOutput());
+		break;
+	case 5:
+		player.curmon().evadup();
+		sideWindow.updateText(player.curmon().getOutput());
+		npccontrol(*npcmon, player.curmon());
+		sideWindow.updateText(npcmon->getOutput());
+		break;
+	case 6:
+		player.curmon().itemuse();
+		sideWindow.updateText(player.curmon().getOutput());
+		npccontrol(*npcmon, player.curmon());
+		sideWindow.updateText(npcmon->getOutput());
+		break;
+	}
+}
+
+void gamecontroller::battle() { // if player encounters battle
+	oopmon* npcmon = create(2); // create an oopmon based on the map lv where the player is in.
+	string strinput = (*npcmon).getName() + " appeared!\n";
+	sideWindow.updateText(strinput);
+	inBattle = true;
+	sideWindow.setEnable();
+	
+	while ((player.curmon().getHp() != 0) && (npcmon->getHp() != 0)) {
+		fight(sideWindow.getFocused(), npcmon);
+	}
+	
 	if (npcmon->getHp() <= 0) {
 		sideWindow.updateText(npcmon->getName() + "'s hp is 0!\n");
 		player.curmon().setExp(*npcmon);
@@ -27,12 +80,31 @@ void gamecontroller::battle() { // if player encounters battle
 			sideWindow.updateText(player.curmon().getName() + " leveled up!\n");
 		}
 		player.addMonToMonList(*npcmon);
-		sideWindow.updateText(player.curmon().getName() + " added " + npcmon->getName() + " to the monlist!\n");
+		sideWindow.updateText("you've captured " + npcmon->getName() +"!\n");
 	}
-	else { sideWindow.updateText(player.curmon().getName() + " Faded!\n");}
-	sideWindow.updateText("Battle ends!\n");
-	sideWindow->draw(mainwindow); // draw at mainwindow
-	sideWindow->display();
+	if (player.curmon().getHp() <= 0) {
+		sideWindow.updateText(player.curmon().getName()+ " fainted!!\n");
+	}
+	
+}
+
+void gamecontroller::enter() {
+	if (inBattle) {
+		sideWindow.updateText("Battle ends!");
+		sideWindow.setDisable();
+		inBattle = false;
+	}
+	else {
+		
+	}
+}
+
+void gamecontroller::selectionUp() {
+	sideWindow.focusUp();
+}
+
+void gamecontroller::selectionDown() {
+	sideWindow.focusDown();
 }
 
 oopmon* gamecontroller::create(int maplv) { // create oopmon
@@ -51,3 +123,5 @@ void gamecontroller::npccontrol(oopmon&npcmon, oopmon& op) { // control the batt
 		else { npcmon.tackle(op); } // no mana and hp. only can do tackle
 	}
 }
+
+

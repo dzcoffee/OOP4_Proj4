@@ -1,23 +1,31 @@
+#include <SFML/Graphics.hpp>
+#include <vector>
+#include <string>
+#include "Oopmon.h"
+#include "Player.h"
+#include "SideWindow.h"
 #ifndef _GAMECONTROLLER_H_
 #define _GAMECONTROLLER_H_
 
-#include <SFML/Graphics.hpp>
-#include <vector>
-#include <string.h>
-#include "Oopmon.h"
-#include "player.cpp"
 
 //gamecontroller
 
 class gamecontroller {
 public:
-	gamecontroller(const Player& player);
+	gamecontroller(Player& player);
+	void fight(int select, oopmon*npcmon);
 	void battle();
-
+	void draw(sf::RenderWindow& window);
+	bool isActivate();
+	void enter();
+	void selectionUp();
+	void selectionDown();
 private:
-	Player player; // player object
+	Player& player; // player object
 	oopmon* create(int maplv);
 	void npccontrol(oopmon& npcmon, oopmon& op);
+	SideWindow sideWindow;
+	bool inBattle = false;
 };
 
 
