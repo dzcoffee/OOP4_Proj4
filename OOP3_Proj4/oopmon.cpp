@@ -29,9 +29,10 @@ oopmon::oopmon(int lv) { //constructor, used by gamemaster object to generate oo
 	case 1:this->type = fire; break;
 	case 2:this->type = water; break;
 	}
-
-	this->NAME = "wild creature" + randnum;
-	this->LV = lv;
+	uniform_int_distribution<int> dist(0, monNum - 1);
+	int num = dist(gen);
+	this->NAME = names[num];
+	this->LV = lv + 1;
 	this->MAX_HP = lv * 100; this->HP = MAX_HP;
 	this->MAX_MP = lv * 100; this->MP = MAX_MP;
 	this->ATK = lv * 10 * (1 + randnum);
@@ -43,101 +44,76 @@ oopmon::oopmon(int lv) { //constructor, used by gamemaster object to generate oo
 	state = true;
 }
 
-void oopmon::fight(oopmon& op, SideWindow& sideWindow) { // battle command used by player object when combat
-	this->setCrit(0.05); this->setEvad(0.05); // reset the value buffs before the battle
-	sideWindow.updateText("Choose your action!\n1. Tackle\n2. Light attack\n3. Heavy attack\n 4. Crit up\n5. Evade up\n 6. item");
-	//sideWindow->draw(mainwindow); // draw at mainwindow
-	//sideWindow->display();
-	//sf::Event event;
-	//switch (event.key.code) {
-	//case sf::Keyboard::Num1:
-	//	tackle(op, sideWindow);
-	//	break;
-	//case sf::Keyboard::Num2:
-	//	lightatk(op, sideWindow);
-	//	break;
-	//case sf::Keyboard::Num3:
-	//	heavyatk(op, sideWindow);
-	//	break;
-	//case sf::Keyboard::Num4:
-	//	critup(sideWindow);
-	//	break;
-	//case sf::Keyboard::Num5:
-	//	evadup(sideWindow);
-	//	break;
-	//case sf::Keyboard::Num6:
-	//	itemuse(sideWindow);
-	//	break;
-	//default:
-	//	sideWindow.updateText("Wrong input! Choose again");
-	//	//sideWindow->draw(mainwindow);
-	//	//sideWindow->display();
-	//	break;
-	//}
+bool oopmon::setExp(oopmon& op) {
+	this->CUR_EXP += 0.1 * op.getExp();
+	if (CUR_EXP >= MAX_EXP){
+		setLvup();
+		return true;
+	}
+	return false;
 }
 
 void oopmon::setLvup() { //when lv up occurs.
-	this->LV += CUR_EXP / MAX_EXP; 
-	this->CUR_EXP -= this->MAX_EXP; 
-	this->MAX_EXP = this->LV * 10; 
+	this->LV += CUR_EXP / MAX_EXP;
+	this->CUR_EXP -= this->MAX_EXP;
+	this->MAX_EXP = this->LV * 10;
 }
 
-void oopmon::tackle(oopmon& op, SideWindow& sideWindow) { // default atk can used without mp
+void oopmon::tackle(oopmon& op) { // default atk can used without mp
 	int dmg = dmgCalc(this->ATK, op.getDef(), this->CRIT, op.getEvad(), this->type, op.getType(), this->HP * 0.2);
-	string message = this->getName() + " used tackle!\n" +this->getName() + " dealt " + to_string(dmg) + " to " + op.getName() + "\n";
-	if (dmg == 0) {	message += "It was not effective!\n";}
+	this->output = this->getName() + " used tackle!\n" + this->getName() + " dealt " + to_string(dmg) + " to " + op.getName() + "\n";
+	if (dmg == 0) { this->output += "It was not effective!\n"; }
 	op.dmgHp(dmg);
-	sideWindow.updateText(message);
-	//sideWindow->draw(mainwindow);
-	//sideWindow->display();
 }
 
-void oopmon::lightatk(oopmon& op, SideWindow& sideWindow) { // high crit change, low default dmg
-	int dmg = dmgCalc(this->ATK, op.getDef(), this->CRIT + 0.3, op.getEvad(), this->type, op.getType(), this->HP * 0.25);
-	string message = this->getName() + " used light attack!\n" + this->getName() + " dealt " + to_string(dmg) + " to " + op.getName() + "\n";
-	if (dmg == 0) {message += "It was not effective!\n";}
-	this->MP -= MAX_MP * 0.3;
-	op.dmgHp(dmg);
-	sideWindow.updateText(message);
-	//sideWindow->draw(mainwindow);
-	//sideWindow->display();
+void oopmon::lightatk(oopmon& op) { // high crit change, low default dmg
+	if (this->getMp() >= MAX_MP * 0.3) {
+		int dmg = dmgCalc(this->ATK, op.getDef(), this->CRIT + 0.3, op.getEvad(), this->type, op.getType(), this->HP * 0.25);
+		this->output = this->getName() + " used light attack!\n" + this->getName() + " dealt " + to_string(dmg) + " to " + op.getName() + "\n";
+		if (dmg == 0) { this->output += "It was not effective!\n"; }
+		this->MP -= MAX_MP * 0.3;
+		op.dmgHp(dmg);
+	}
+	else this->output = "not sufficient MANA!!\n";
 }
 
-void oopmon::heavyatk(oopmon& op, SideWindow& sideWindow) { // low crit chance, high default dmg
-	int dmg = dmgCalc(this->ATK, op.getDef(), this->CRIT, op.getEvad(), this->type, op.getType(), this->HP * 0.5);
-	string message = this->getName() + " used heavy atk!\n" + this->getName() + " dealt " + to_string(dmg) + " to " + op.getName() + "\n";
-	if (dmg == 0) { message += "It was not effective!\n";}
-	this->MP -= MAX_MP * 0.5;
-	op.dmgHp(dmg);
-	sideWindow.updateText(message);
-	//sideWindow->draw(mainwindow);
-	//sideWindow->display();
+void oopmon::heavyatk(oopmon& op) { // low crit chance, high default dmg
+	if (this->getMp() >= MAX_MP * 0.5) {
+		int dmg = dmgCalc(this->ATK, op.getDef(), this->CRIT, op.getEvad(), this->type, op.getType(), this->HP * 0.5);
+		this->output = this->getName() + " used heavy atk!\n" + this->getName() + " dealt " + to_string(dmg) + " to " + op.getName() + "\n";
+		if (dmg == 0) { this->output += "It was not effective!\n"; }
+		this->MP -= MAX_MP * 0.5;
+		op.dmgHp(dmg);
+	}
+	else this->output = "not sufficient MANA!!\n";
 }
 
-void oopmon::critup(SideWindow& sideWindow) { // self buff to crit
-	string message = this->getName() + " used Crit up!\n" + this->getName() + "'s crit is increased by 50%!\n";
-	sideWindow.updateText(message);
-	//sideWindow->draw(mainwindow);
-	//sideWindow->display();
-	this->MP -= MAX_MP * 0.15;
-	this->CRIT += (1.0-this->getCrit())/2;
+void oopmon::critup() { // self buff to crit
+	if (this->getMp() >= MAX_MP * 0.15) {
+		this->output = this->getName() + " used Crit up!\n" + this->getName() + "'s crit is increased!\n";
+		this->MP -= MAX_MP * 0.15;
+		this->CRIT += (1.0 - this->getCrit()) / 2;
+		//this->output += "current crit = " + this->getCrit();
+	}
+	else this->output = "not sufficient MANA!!\n";
 }
 
-void oopmon::evadup(SideWindow& sideWindow) { // self buff to evad
-	string message = this->getName() + " used Evad up!\n" +	this->getName() + "'s Evad is increased!\n";
-	sideWindow.updateText(message);
-	//sideWindow->draw(mainwindow);
-	//sideWindow->display();
-	this->MP -= MAX_MP * 0.15;
-	this->EVAD += (1.0-this->getEvad())/2;
+void oopmon::evadup() { // self buff to evad
+	if (this->getMp() >= MAX_MP * 0.15) {
+		this->output = this->getName() + " used Evad up!\n" + this->getName() + "'s Evad is increased!\n";
+		this->MP -= MAX_MP * 0.15;
+		this->EVAD += (1.0 - this->getEvad()) / 2;
+	}
+	else this->output = "not sufficient MANA!!\n";
 }
 
-void oopmon::itemuse(SideWindow& sideWindow) {
-	string message = this->getName() + " used bandage!\n" +	this->getName() + " recovered 50% health!\n";
-	sideWindow.updateText(message);
-	//sideWindow->draw(mainwindow);
-	//sideWindow->display();
-	this->dmgHp(-50 * this->MAX_HP);
+void oopmon::itemuse() {
+	if (this->getMp() >= MAX_MP * 0.15) {
+		this->output = this->getName() + " used bandage!\n" + this->getName() + " recovered 50% health!\n";
+		this->MP -= MAX_MP * 0.15;
+		this->dmgHp(-50 * this->MAX_HP);
+	}
+	else this->output = "not sufficient MANA!!\n";
 }
 
 int oopmon::dmgCalc(int atk, int def, double CRIT, double EVAD, int thistype, int thattype, double skilldmg) { //calculate crit & evasion of the attack
@@ -160,3 +136,5 @@ int oopmon::dmgCalc(int atk, int def, double CRIT, double EVAD, int thistype, in
 	else if (randnum > CRIT * 100 && randnum > EVAD * 100) { return atk * skilldmg * typevalue - def; } // didn't crit nor evade. deal normal dmg
 	else if (randnum <CRIT * 100 && randnum > EVAD * 100) { return atk * skilldmg * typevalue * 2 - def; } // can't evade. deal crit dmg
 }
+
+std::string oopmon::names[oopmon::monNum] = { "Cabbage" };

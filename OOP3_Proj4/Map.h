@@ -89,17 +89,21 @@ public:
 // ¸Ê °ü¸®
 class MapManager {
 private:
+	gamecontroller& controller;
 	vector<Map> maps;
 	int currentMap = 0;
 	PlayerTile playerTile;
 	int playerX;
 	int playerY;
+	View view;
 
+	void updateView(int x, int y);
 public:
 	MapManager(Player& player, gamecontroller& cotroller);
 	void changeMap(int mapNum, int x, int y);
 	void movePlayer(int dx, int dy);
 	void draw(RenderWindow& window);
+	View& getView() { return view; }
 };
 
 #endif

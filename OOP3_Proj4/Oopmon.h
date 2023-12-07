@@ -1,7 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include <string>
-#include "SideWindow.h"
 
 
 #ifndef _OOPMON_H_
@@ -17,10 +16,13 @@ public:
 	oopmon(std::string name, montype, int lv);
 	oopmon(int lv);
 
-	void fight(oopmon& op, SideWindow& sideWindow);
+	static const int monNum = 1;
+	static std::string names[monNum];
+	//void fight(oopmon& op, int choice);
 
 	//getter
 	std::string getName() { return this->NAME; }
+	std::string getOutput() { return this->output; }
 	int getHp() { return this->HP; }
 	int getMp() { return this->MP; }
 	int getMaxHp() { return this->MAX_HP; }
@@ -40,7 +42,7 @@ public:
 	void setCrit(int value) { this->CRIT = value; } // used for reset after battle
 	void setEvad(int value) { this->EVAD = value; } // used for reset after battle
 	void setState(bool state) { this->state = state; } //set state of oopmon if dead
-	void setExp(oopmon& op) { this->CUR_EXP += 0.1*op.getExp(); } // get the exp if oopmon won.
+	bool setExp(oopmon& op); // get the exp if oopmon won.
 	void setLvup(); // lv up if cur_exp get to the max_exp
 
 	//dmg calc
@@ -48,17 +50,18 @@ public:
 	void useMp(int value) { this->MP -= value; } // used to charge used mana by amount
 
 
-	void tackle(oopmon& op, SideWindow& sideWindow);
-	void lightatk(oopmon& op, SideWindow& sideWindow);
-	void heavyatk(oopmon& op, SideWindow& sideWindow);
-	void critup(SideWindow& sideWindow);
-	void evadup(SideWindow& sideWindow);
-	void itemuse(SideWindow& sideWindow);
+	void tackle(oopmon& op);
+	void lightatk(oopmon& op);
+	void heavyatk(oopmon& op);
+	void critup();
+	void evadup();
+	void itemuse();
 
 	int dmgCalc(int atk, int def, double CRIT, double EVAD, int thistype, int thattype, double skilldmg);
 
 private:
 	std::string NAME; //name of oopmon
+	std::string output = ""; // battle result etc
 	int HP; //current health
 	int MP; //current mana
 	int MAX_HP; //max health

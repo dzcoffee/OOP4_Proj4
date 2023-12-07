@@ -49,7 +49,7 @@ bool Tile::canPass() {
 }
 
 // PlayerTile
-PlayerTile::PlayerTile(float x, float y, float width, float height, Player& player) : Tile(x, y, width, height, "puang.png"), player(player) {
+PlayerTile::PlayerTile(float x, float y, float width, float height, Player& player) : Tile(x, y, width, height, "Puang.png"), player(player) {
 
 }
 
@@ -84,7 +84,7 @@ Grass::Grass(float x, float y, float width, float height, gamecontroller& contro
 
 bool Grass::onCollision(Player& player) {
     srand((unsigned int)time(NULL));
-    if (rand() % 4 == 0) {
+    if (rand() % 8 == 0) {
         controller.battle();
     }
     return true;
@@ -122,7 +122,7 @@ bool Wall::onCollision(Player& player) {
 }
 
 // MapManager
-MapManager::MapManager(Player& player, gamecontroller& controller) : playerTile(Tile::tileSize, Tile::tileSize, Tile::tileSize, Tile::tileSize, player) {
+MapManager::MapManager(Player& player, gamecontroller& controller) : playerTile(Tile::tileSize, Tile::tileSize, Tile::tileSize, Tile::tileSize, player), controller(controller) {
 
     // 맵 생성
     maps.emplace_back(30, 22);
@@ -206,7 +206,7 @@ MapManager::MapManager(Player& player, gamecontroller& controller) : playerTile(
         delete map.grid[0][5];
         map.grid[0][5] = new Potal(0, 5 * Tile::tileSize, Tile::tileSize, Tile::tileSize, *this, 0, 0, 4);
     }
-
+    view = sf::View(sf::FloatRect(0, 0, 1600, 900));
     changeMap(0, 5, 5);
 }
 
@@ -215,7 +215,8 @@ void MapManager::changeMap(int mapNum, int x, int y) {
     playerX = x;
     playerY = y;
     playerTile.move(x * Tile::tileSize, y * Tile::tileSize);
-    playerTile.getPlayer().setMapLv(mapNum);
+    playerTile.getPlayer().setMapLv(mapNum + 1);
+    updateView(x, y);
 }
 
 void MapManager::movePlayer(int dx, int dy) {
@@ -226,6 +227,7 @@ void MapManager::movePlayer(int dx, int dy) {
         playerTile.move(nextX * Tile::tileSize, nextY * Tile::tileSize);
         playerX = nextX;
         playerY = nextY;
+        updateView(nextX, nextY);
         maps[currentMap].grid[nextX][nextY]->onCollision(playerTile.getPlayer());
         /*if (maps[currentMap].grid[nextX][nextY]->onCollision(playerTile.getPlayer())) {
         }*/
@@ -235,7 +237,37 @@ void MapManager::movePlayer(int dx, int dy) {
     }
 }
 
+void MapManager::updateView(int x, int y) {
+
+    float viewHalfWidth = view.getSize().x / 2;
+    float viewHalfHeight = view.getSize().y / 2;
+
+    float newCenterX = x * Tile::tileSize;
+    float newCenterY = y * Tile::tileSize;
+
+    // 맵의 크기에 따라 view의 중심 위치를 제한
+
+    float mapPixelWidth = maps[currentMap].width * Tile::tileSize;
+    float mapPixelHeight = maps[currentMap].height * Tile::tileSize;
+
+    if (newCenterX - viewHalfWidth < 0) {
+        newCenterX = viewHalfWidth;
+    }
+    if (newCenterY - viewHalfHeight < 0) {
+        newCenterY = viewHalfHeight;
+    }
+    if (newCenterX + viewHalfWidth > mapPixelWidth) {
+        newCenterX = mapPixelWidth - viewHalfWidth;
+    }
+    if (newCenterY + viewHalfHeight > mapPixelHeight) {
+        newCenterY = mapPixelHeight - viewHalfHeight;
+    }
+    view.setCenter(sf::Vector2f(newCenterX, newCenterY));
+    controller.setCenter(newCenterX, newCenterY);
+}
+
 void MapManager::draw(RenderWindow& window) {
+    window.setView(view);
     maps[currentMap].draw(window);
     playerTile.draw(window);
 }

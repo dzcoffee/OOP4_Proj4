@@ -13,7 +13,7 @@ int main()
 
     RenderWindow window(VideoMode(1600, 900), "OOPMon! "); //화면크기 설정 & 캡션 이름 설정
     window.setFramerateLimit(60);//최대프레임 제한
-    Player player("name","monName",oopmon::montype::fire);
+    Player player("name","Puang",oopmon::montype::fire);
     gamecontroller controller(player);
     MapManager mapManager(player, controller);
     //SideWindow sidewindow1;
@@ -35,9 +35,11 @@ int main()
                     switch (event.key.code) {
                     case Keyboard::Left:
                         //아마 화살표 움직이고 어떤 함수를 실행시킬 id값을 설정하게 하면 될 듯
+                        controller.selectionLeft();
                         break;
                     case Keyboard::Right:
                         //Left와 동일
+                        controller.selectionRight();
                         break;
                     case Keyboard::Up:
                         //Left와 동일
