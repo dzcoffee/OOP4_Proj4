@@ -19,11 +19,11 @@ protected:
 	bool _canPass;
 public:
 	Tile(float x, float y, float width, float height, const std::string& textureFile, bool canPass = true);
-	static const int tileSize = 100; // Å¸ÀÏÀÇ Å©±â¸¦ ³ªÅ¸³»´Â Á¤Àû ¸â¹ö º¯¼ö Ãß°¡
+	static const int tileSize = 100; // Å¸ï¿½ï¿½ï¿½ï¿½ Å©ï¿½â¸¦ ï¿½ï¿½Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
 	virtual ~Tile() = default;
 	void draw(sf::RenderWindow& window);
 	bool canPass();
-	virtual bool onCollision(Player& player) = 0;		// Ãæµ¹ ½Ã ÀÌº¥Æ®
+	virtual bool onCollision(Player& player) = 0;		// ï¿½æµ¹ ï¿½ï¿½ ï¿½Ìºï¿½Æ®
 };
 
 class PlayerTile : public Tile {
@@ -70,6 +70,31 @@ public:
 	virtual bool onCollision(Player& player);
 };
 
+class Wall2 : public Tile {
+public:
+	Wall2(float x, float y, float width, float height);
+	virtual bool onCollision(Player& player);
+};
+
+class Wall3 : public Tile {
+public:
+	Wall3(float x, float y, float width, float height);
+	virtual bool onCollision(Player& player);
+};
+
+class Wall4 : public Tile {
+public:
+	Wall4(float x, float y, float width, float height);
+	virtual bool onCollision(Player& player);
+};
+
+class Event_Tile : public Tile {
+public:
+	Event_Tile(float x, float y, float width, float height);
+	virtual bool onCollision(Player& player);
+};
+
+
 
 class Map {
 public:
@@ -86,7 +111,7 @@ public:
 	void draw(RenderWindow& window);
 };
 
-// ¸Ê °ü¸®
+// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 class MapManager {
 private:
 	gamecontroller& controller;
