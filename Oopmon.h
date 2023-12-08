@@ -1,7 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include <string>
-#include "SideWindow.h"
 
 
 #ifndef _OOPMON_H_
@@ -17,6 +16,8 @@ public:
 	oopmon(std::string name, montype, int lv);
 	oopmon(int lv);
 
+	static const int monNum = 1;
+	static std::string names[monNum];
 	//void fight(oopmon& op, int choice);
 
 	//getter
@@ -28,12 +29,13 @@ public:
 	int getMaxMp() { return this->MAX_MP; }
 	int getAtk() { return this->ATK; }
 	int getDef() { return this->DEF; }
-	int getCrit() { return this->CRIT; }
-	int getEvad() { return this->EVAD; }
+	double getCrit() { return this->CRIT; }
+	double getEvad() { return this->EVAD; }
 	int getLv() { return this->LV; }
 	int getExp() { return this->MAX_EXP; }
 	int getType() { return this->type; }
 	bool getAlive() { return this->state; }
+	bool iflvup() { return this->CUR_EXP > this->MAX_EXP; }
 
 	//setter
 	void setHp(int value) { this->HP = value; } // used for revive
@@ -41,7 +43,7 @@ public:
 	void setCrit(int value) { this->CRIT = value; } // used for reset after battle
 	void setEvad(int value) { this->EVAD = value; } // used for reset after battle
 	void setState(bool state) { this->state = state; } //set state of oopmon if dead
-	void setExp(oopmon& op) { this->CUR_EXP += 0.1*op.getExp(); } // get the exp if oopmon won.
+	void setExp(oopmon& op); // get the exp if oopmon won.
 	void setLvup(); // lv up if cur_exp get to the max_exp
 
 	//dmg calc
@@ -50,17 +52,17 @@ public:
 
 
 	void tackle(oopmon& op);
-	void lightatk(oopmon& op);
-	void heavyatk(oopmon& op);
-	void critup();
-	void evadup();
-	void itemuse();
+	int lightatk(oopmon& op);
+	int heavyatk(oopmon& op);
+	int critup();
+	int evadup();
+	int itemuse();
 
 	int dmgCalc(int atk, int def, double CRIT, double EVAD, int thistype, int thattype, double skilldmg);
 
 private:
 	std::string NAME; //name of oopmon
-	std::string output=""; // battle result etc
+	std::string output = ""; // battle result etc
 	int HP; //current health
 	int MP; //current mana
 	int MAX_HP; //max health

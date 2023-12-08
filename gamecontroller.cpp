@@ -8,7 +8,7 @@
 
 using namespace std;
 
-gamecontroller::gamecontroller(Player& player) : player(player) {
+gamecontroller::gamecontroller(Player& player) : player(player), enemy(0) {
 	//this->player = player;
 };
 
@@ -20,108 +20,119 @@ void gamecontroller::draw(sf::RenderWindow& window) {
 	sideWindow.draw(window);
 }
 
-void gamecontroller::fight(int select, oopmon* npcmon) {
+void gamecontroller::fight(int select) {
 	switch (select) {
 	case 1:
-		player.curmon().tackle(*npcmon);
+		player.curmon().tackle(enemy);
 		sideWindow.updateText(player.curmon().getOutput());
-		npccontrol(*npcmon, player.curmon());
-		sideWindow.updateText(npcmon->getOutput());
 		break;
 	case 2:
-		player.curmon().lightatk(*npcmon);
+		player.curmon().lightatk(enemy);
 		sideWindow.updateText(player.curmon().getOutput());
-		npccontrol(*npcmon, player.curmon());
-		sideWindow.updateText(npcmon->getOutput());
 		break;
 	case 3:
-		player.curmon().heavyatk(*npcmon);
+		player.curmon().heavyatk(enemy);
 		sideWindow.updateText(player.curmon().getOutput());
-		npccontrol(*npcmon, player.curmon());
-		sideWindow.updateText(npcmon->getOutput());
 		break;
 	case 4:
 		player.curmon().critup();
 		sideWindow.updateText(player.curmon().getOutput());
-		npccontrol(*npcmon, player.curmon());
-		sideWindow.updateText(npcmon->getOutput());
 		break;
 	case 5:
 		player.curmon().evadup();
 		sideWindow.updateText(player.curmon().getOutput());
-		npccontrol(*npcmon, player.curmon());
-		sideWindow.updateText(npcmon->getOutput());
 		break;
 	case 6:
 		player.curmon().itemuse();
 		sideWindow.updateText(player.curmon().getOutput());
-		npccontrol(*npcmon, player.curmon());
-		sideWindow.updateText(npcmon->getOutput());
 		break;
 	}
 }
 
 void gamecontroller::battle() { // if player encounters battle
-	oopmon* npcmon = create(2); // create an oopmon based on the map lv where the player is in.
-	string strinput = (*npcmon).getName() + " appeared!\n";
-	sideWindow.updateText(strinput);
+	player.curmon().setCrit(0.05); player.curmon().setEvad(0.05);
+	player.curmon().setHp(player.curmon().getMaxHp()); player.curmon().setMp(player.curmon().getMaxMp());
+	player.curmon().setState(true);
+	create(player.getMapLv()); // create an oopmon based on the map lv where the player is in.
 	inBattle = true;
-	sideWindow.setEnable();
-	
-	while ((player.curmon().getHp() != 0) && (npcmon->getHp() != 0)) {
-		fight(sideWindow.getFocused(), npcmon);
-	}
-	
-	if (npcmon->getHp() <= 0) {
-		sideWindow.updateText(npcmon->getName() + "'s hp is 0!\n");
-		player.curmon().setExp(*npcmon);
-		if (player.curmon().getExp() >= player.curmon().getExp()) {
-			player.curmon().setLvup();
-			sideWindow.updateText(player.curmon().getName() + " leveled up!\n");
-		}
-		player.addMonToMonList(*npcmon);
-		sideWindow.updateText("you've captured " + npcmon->getName() +"!\n");
-	}
-	if (player.curmon().getHp() <= 0) {
-		sideWindow.updateText(player.curmon().getName()+ " fainted!!\n");
-	}
-	
+	myTurn = true;
+	sideWindow.setEnable(&player.curmon(), &enemy);
+	string strinput = enemy.getName() + " appeared!\n";
+	sideWindow.updateText(strinput);
 }
 
 void gamecontroller::enter() {
 	if (inBattle) {
-		sideWindow.updateText("Battle ends!");
-		sideWindow.setDisable();
-		inBattle = false;
+		if (myTurn) {
+			fight(sideWindow.getFocused());
+			sideWindow.update();
+			if (enemy.getHp() <= 0) {
+				sideWindow.appendText(enemy.getName() + "'s hp is 0!\n");
+				player.curmon().setExp(enemy);
+				if (player.curmon().iflvup()) {
+					player.curmon().setLvup();
+					sideWindow.appendText(player.curmon().getName() + " leveled up!\n");
+				}
+				player.addMonToMonList(enemy);
+				sideWindow.appendText("you've captured " + enemy.getName() + "!\n");
+				inBattle = false;
+				cout << player.curmon().CUR_EXP << ' ' << player.curmon().MAX_EXP << endl;
+			}
+			myTurn = false;
+		}
+		else {
+			npccontrol(enemy, player.curmon());
+			sideWindow.updateText(enemy.getOutput());
+			sideWindow.update();
+			if (player.curmon().getHp() <= 0) {
+				sideWindow.appendText(player.curmon().getName() + " fainted!!\n");
+				inBattle = false;
+			}
+			myTurn = true;
+		}
 	}
 	else {
-		
+		sideWindow.setDisable();
 	}
 }
 
 void gamecontroller::selectionUp() {
-	sideWindow.focusUp();
+	if (myTurn)
+		sideWindow.focusUp();
 }
 
 void gamecontroller::selectionDown() {
-	sideWindow.focusDown();
+	if (myTurn)
+		sideWindow.focusDown();
 }
 
-oopmon* gamecontroller::create(int maplv) { // create oopmon
-	return new oopmon(maplv);	
+void gamecontroller::selectionLeft() {
+	if (myTurn)
+		sideWindow.focusLeft();
 }
 
-void gamecontroller::npccontrol(oopmon&npcmon, oopmon& op) { // control the battle of npc oopmon (oponent)
+void gamecontroller::selectionRight() {
+	if (myTurn)
+		sideWindow.focusRight();
+}
+
+void gamecontroller::create(int maplv) { // create oopmon
+	enemy = oopmon(maplv);
+}
+
+void gamecontroller::npccontrol(oopmon& npcmon, oopmon& op) { // control the battle of npc oopmon (oponent)
 	//check it's hp & mp first
 	if (static_cast<double>(npcmon.getHp()) / static_cast<double>(npcmon.getMaxHp()) >= 0.5) { //if npcmon's hp is more than 50%
 		if (npcmon.getMp() >= npcmon.getMaxMp() * 0.5) { npcmon.heavyatk(op); } // sufficient mana to heavyatk
 		else if (npcmon.getMp() >= npcmon.getMaxMp() * 0.3) { npcmon.lightatk(op); } // less mana so can do lightatk
 		else { npcmon.tackle(op); }//no mana, can only do tackle
 	}
-	else{ //if npcmon's hp is less than 50%
+	else { //if npcmon's hp is less than 50%
 		if (npcmon.getMp() >= npcmon.getMaxMp() * 0.15) { npcmon.evadup(); }// if npcmon's mp is sufficient to use evad up, use it.
 		else { npcmon.tackle(op); } // no mana and hp. only can do tackle
 	}
 }
 
-
+void gamecontroller::setCenter(float x, float y) {
+	sideWindow.setCenter(x, y);
+}
