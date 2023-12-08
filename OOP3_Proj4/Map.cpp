@@ -238,7 +238,7 @@ MapManager::MapManager(Player& player, gamecontroller& controller) : playerTile(
 
         for (int i = 0; i < map.width; ++i) {
             for (int j = 0; j < map.height; ++j) {
-                map.grid[i][j] = new Grass(i * Tile::tileSize, j * Tile::tileSize, Tile::tileSize, Tile::tileSize);
+                map.grid[i][j] = new Grass(i * Tile::tileSize, j * Tile::tileSize, Tile::tileSize, Tile::tileSize, controller);
             }
         }
 
@@ -352,21 +352,21 @@ MapManager::MapManager(Player& player, gamecontroller& controller) : playerTile(
         for (int i = 15; i <= 18; ++i) { //island 1
             for (int j = 26; j <= 30; ++j) {
                 delete map.grid[i][j];
-                map.grid[i][j] = new Grass(i * Tile::tileSize, j * Tile::tileSize, Tile::tileSize, Tile::tileSize);
+                map.grid[i][j] = new Grass(i * Tile::tileSize, j * Tile::tileSize, Tile::tileSize, Tile::tileSize, controller);
             }
         }
 
         for (int i = 1; i <= 6; ++i) { //island 2
             for (int j = 16; j <= 20; ++j) {
                 delete map.grid[i][j];
-                map.grid[i][j] = new Grass(i * Tile::tileSize, j * Tile::tileSize, Tile::tileSize, Tile::tileSize);
+                map.grid[i][j] = new Grass(i * Tile::tileSize, j * Tile::tileSize, Tile::tileSize, Tile::tileSize, controller);
             }
         }
 
         for (int i = 12; i <= 18; ++i) { //island 3
             for (int j = 7; j <= 11; ++j) {
                 delete map.grid[i][j];
-                map.grid[i][j] = new Grass(i * Tile::tileSize, j * Tile::tileSize, Tile::tileSize, Tile::tileSize);
+                map.grid[i][j] = new Grass(i * Tile::tileSize, j * Tile::tileSize, Tile::tileSize, Tile::tileSize, controller);
             }
         }
 
@@ -415,7 +415,7 @@ MapManager::MapManager(Player& player, gamecontroller& controller) : playerTile(
 
         for (int i = 0; i < map.width; ++i) {
             for (int j = 0; j < map.height; ++j) {
-                map.grid[i][j] = new Grass(i * Tile::tileSize, j * Tile::tileSize, Tile::tileSize, Tile::tileSize);
+                map.grid[i][j] = new Grass(i * Tile::tileSize, j * Tile::tileSize, Tile::tileSize, Tile::tileSize, controller);
             }
         }
 
