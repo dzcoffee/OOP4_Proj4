@@ -115,7 +115,7 @@ public:
 class MapManager {
 private:
 	gamecontroller& controller;
-	vector<Map> maps;
+	
 	int currentMap = 0;
 	PlayerTile playerTile;
 	int playerX;
@@ -130,6 +130,10 @@ public:
 	void draw(RenderWindow& window);
 	View& getView() { return view; }
 	void onPlayerDied();
+	int getPlayerX();
+	int getPlayerY();
+	int getCurrentMap();
+	vector<Map> maps;
 };
 
 #endif

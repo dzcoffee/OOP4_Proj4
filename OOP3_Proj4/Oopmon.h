@@ -32,7 +32,8 @@ public:
 	double getCrit() { return this->CRIT; }
 	double getEvad() { return this->EVAD; }
 	int getLv() { return this->LV; }
-	int getExp() { return this->MAX_EXP; }
+	int getExp() { return this->CUR_EXP; }
+	int getMExp() { return this->MAX_EXP; }
 	int getType() { return this->type; }
 	bool getAlive() { return this->state; }
 	bool iflvup() { return this->CUR_EXP >= this->MAX_EXP; }

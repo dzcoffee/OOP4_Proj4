@@ -4,6 +4,7 @@
 #include "SideWindow.h"
 #include "Player.h"
 #include "Gamecontroller.h"
+#include "InfoWindow.h"
 
 using namespace std;
 using namespace sf;
@@ -16,8 +17,10 @@ int main()
     Player player("name","Puang",oopmon::montype::fire);
     gamecontroller controller(player);
     MapManager mapManager(player, controller);
-    //SideWindow sidewindow1;
+    InfoWindow *InfoWindow1 = nullptr;
+    
     bool isSideWindowVisible = false; // SideWindow의 가시성 여부를 저장하는 변수
+    bool isInfoWindowVisible = false; // SideWindow의 가시성 여부를 저장하는 변수
 
     while (window.isOpen())
     {
@@ -50,7 +53,7 @@ int main()
                         controller.selectionDown();
                         break;
                     case Keyboard::X:
-                        //isSideWindowVisible = !isSideWindowVisible;
+                        
                         break;
                     case Keyboard::Z:
                         //해당 위치에 있는 함수 실행
@@ -62,23 +65,33 @@ int main()
 
                 }
                 else {
-                    switch (event.key.code) {
-                    case Keyboard::Left:
-                        mapManager.movePlayer(-1, 0);
-                        break;
-                    case Keyboard::Right:
-                        mapManager.movePlayer(1, 0);
-                        break;
-                    case Keyboard::Up:
-                        mapManager.movePlayer(0, -1);
-                        break;
-                    case Keyboard::Down:
-                        mapManager.movePlayer(0, 1);
-                        break;
-                        /*case Keyboard::X:
-                            isSideWindowVisible = !isSideWindowVisible;
+                    if (!isInfoWindowVisible) {
+                        switch (event.key.code) {
+                        case Keyboard::Left:
+                            mapManager.movePlayer(-1, 0);
                             break;
-                        }*/
+                        case Keyboard::Right:
+                            mapManager.movePlayer(1, 0);
+                            break;
+                        case Keyboard::Up:
+                            mapManager.movePlayer(0, -1);
+                            break;
+                        case Keyboard::Down:
+                            mapManager.movePlayer(0, 1);
+                            break;
+                        case Keyboard::X:
+                            isInfoWindowVisible = !isInfoWindowVisible;
+                            
+                            break;
+                        }
+                    }
+                    else {
+                        switch (event.key.code) {
+                        case Keyboard::X:
+                            isInfoWindowVisible = !isInfoWindowVisible;
+                            
+                            break;
+                        }
                     }
                 }
             }
@@ -97,6 +110,16 @@ int main()
                 if (!player.curmon().getAlive()) {
                     mapManager.onPlayerDied();
                 }
+            }
+            if (isInfoWindowVisible) {
+                if (InfoWindow1 == nullptr) {
+                    InfoWindow1 = new InfoWindow(player, mapManager);
+                }
+                InfoWindow1->draw(window);
+            }
+            else {
+                delete InfoWindow1;
+                InfoWindow1 = nullptr;
             }
 
             window.display();
