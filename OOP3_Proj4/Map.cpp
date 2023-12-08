@@ -85,7 +85,7 @@ Grass::Grass(float x, float y, float width, float height, gamecontroller& contro
 bool Grass::onCollision(Player& player) {
     srand((unsigned int)time(NULL));
     if (rand() % 8 == 0) {
-        //controller.battle();
+        controller.battle();
     }
     return true;
 }

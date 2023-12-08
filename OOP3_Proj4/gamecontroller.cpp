@@ -71,7 +71,7 @@ void gamecontroller::enter() {
 					sideWindow.appendText(player.curmon().getName() + " leveled up!\n");
 				}
 				player.addMonToMonList(enemy);
-				sideWindow.appendText("you've captured " + enemy.getName() + "!\n");
+				//sideWindow.appendText("you've captured " + enemy.getName() + "!\n");
 				inBattle = false;
 			}
 			myTurn = false;

@@ -9,7 +9,7 @@ oopmon::oopmon(string name, montype type, int lv) { //player's first oopmon sele
 	this->NAME = name;
 	this->type = type;
 	this->LV = lv;
-	this->MAX_HP = lv * 400; this->HP = MAX_HP;
+	this->MAX_HP = lv * 600; this->HP = MAX_HP;
 	this->MAX_MP = lv * 100; this->MP = MAX_MP;
 	this->ATK = lv * 1 * 2;
 	this->DEF = lv * 1 * 2;
@@ -32,8 +32,8 @@ oopmon::oopmon(int lv) { //constructor, used by gamemaster object to generate oo
 	}
 
 	this->NAME = "wild creature " + namestr;
-	this->LV = lv + 1;
-	this->MAX_HP = lv * 400; this->HP = MAX_HP;
+	this->LV = lv;
+	this->MAX_HP = lv * 500; this->HP = MAX_HP;
 	this->MAX_MP = lv * 100; this->MP = MAX_MP;
 	this->ATK = lv * 1 * (1);
 	this->DEF = lv * 1 * (3 - randnum);
@@ -111,9 +111,10 @@ int oopmon::evadup() { // self buff to evad
 
 int oopmon::itemuse() {
 	if (this->getMp() >= MAX_MP * 0.15) {
-		this->output = this->getName() + " used bandage!\n" + this->getName() + " recovered 50% health!\n";
+		this->output = this->getName() + " used bandage!\n" + this->getName() + " recovered health!\n";
 		this->MP -= MAX_MP * 0.15;
-		this->dmgHp(-0.5 * this->MAX_HP);
+		if (this->getHp() >= 0.5 * this->getMaxHp()) this->setHp(this->getMaxHp());
+		else this->dmgHp(-0.5 * this->MAX_HP);
 		return 0;
 	}
 	else this->output = "not sufficient MANA!!\n"; return 1;
