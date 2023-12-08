@@ -3,14 +3,12 @@
 
 #include <SFML/Graphics.hpp>
 #include <vector>
+#include "player.cpp"
 
 using namespace std;
 using namespace sf;
 
 class MapManager;
-class Player {
-
-};
 
 class Tile {
 protected:
@@ -66,6 +64,31 @@ public:
 	virtual bool onCollision(Player& player);
 };
 
+class Wall2 : public Tile {
+public:
+	Wall2(float x, float y, float width, float height);
+	virtual bool onCollision(Player& player);
+};
+
+class Wall3 : public Tile {
+public:
+	Wall3(float x, float y, float width, float height);
+	virtual bool onCollision(Player& player);
+};
+
+class Wall4 : public Tile {
+public:
+	Wall4(float x, float y, float width, float height);
+	virtual bool onCollision(Player& player);
+};
+
+class Event_Tile : public Tile {
+public:
+	Event_Tile(float x, float y, float width, float height);
+	virtual bool onCollision(Player& player);
+};
+
+
 
 class Map {
 public:
@@ -90,12 +113,15 @@ private:
 	PlayerTile playerTile;
 	int playerX;
 	int playerY;
+	View view;
 
 public:
 	MapManager(Player& player);
 	void changeMap(int mapNum, int x, int y);
 	void movePlayer(int dx, int dy);
 	void draw(RenderWindow& window);
+	void moveView(int mapNum, int x, int y);
+	View& getView();
 };
 
 #endif
