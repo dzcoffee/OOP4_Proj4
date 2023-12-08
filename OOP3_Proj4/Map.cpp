@@ -111,6 +111,42 @@ bool Wall::onCollision(Player& player) {
     return false;
 }
 
+Wall2::Wall2(float x, float y, float width, float height) : Tile(x, y, width, height, "wall_tree.png") { //tree_wall
+
+}
+
+bool Wall2::onCollision(Player& player) {
+
+    return false;
+}
+
+Wall3::Wall3(float x, float y, float width, float height) : Tile(x, y, width, height, "wall_normal2.png") { //corner_wall
+
+}
+
+bool Wall3::onCollision(Player& player) {
+
+    return false;
+}
+
+Wall4::Wall4(float x, float y, float width, float height) : Tile(x, y, width, height, "wall_water.png") { //corner_wall
+
+}
+
+bool Wall4::onCollision(Player& player) {
+
+    return false;
+}
+
+Event_Tile::Event_Tile(float x, float y, float width, float height) : Tile(x, y, width, height, "EV.png") { //event TIle
+
+}
+
+bool Event_Tile::onCollision(Player& player) {
+
+    return true;
+}
+
 // MapManager
 MapManager::MapManager(Player& player) : playerTile(Tile::tileSize, Tile::tileSize, Tile::tileSize, Tile::tileSize, player) {
     
