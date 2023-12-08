@@ -65,13 +65,14 @@ void gamecontroller::enter() {
 			sideWindow.update();
 			if (enemy.getHp() <= 0) {
 				sideWindow.appendText(enemy.getName() + "'s hp is 0!\n");
-				if (player.curmon().setExp(enemy)) {
+				player.curmon().setExp(enemy);
+				if (player.curmon().iflvup()) {
+					player.curmon().setLvup();
 					sideWindow.appendText(player.curmon().getName() + " leveled up!\n");
 				}
 				player.addMonToMonList(enemy);
 				sideWindow.appendText("you've captured " + enemy.getName() + "!\n");
 				inBattle = false;
-				cout << player.curmon().CUR_EXP << ' ' << player.curmon().MAX_EXP << endl;
 			}
 			myTurn = false;
 		}

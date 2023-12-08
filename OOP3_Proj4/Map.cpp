@@ -271,3 +271,8 @@ void MapManager::draw(RenderWindow& window) {
     maps[currentMap].draw(window);
     playerTile.draw(window);
 }
+
+void MapManager::onPlayerDied() {
+    playerTile.getPlayer().curmon().resurrection();
+    changeMap(0, 5, 5);
+}

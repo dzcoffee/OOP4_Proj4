@@ -124,6 +124,8 @@ void SideWindow::setEnable(oopmon* playerMon, oopmon* enemyMon) {
 		std::cout << "Failed to load texture from " << enemyMon->getName() + ".png" << std::endl;
 	}
 	enemy.setTexture(&enemyTexture);
+	player.setFillColor(sf::Color::White);
+	enemy.setFillColor(sf::Color::White);
 
 	update();
 	moveArrow();

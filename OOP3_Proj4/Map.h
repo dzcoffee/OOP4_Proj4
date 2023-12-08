@@ -104,6 +104,7 @@ public:
 	void movePlayer(int dx, int dy);
 	void draw(RenderWindow& window);
 	View& getView() { return view; }
+	void onPlayerDied();
 };
 
 #endif

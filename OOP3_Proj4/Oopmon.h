@@ -29,12 +29,13 @@ public:
 	int getMaxMp() { return this->MAX_MP; }
 	int getAtk() { return this->ATK; }
 	int getDef() { return this->DEF; }
-	int getCrit() { return this->CRIT; }
-	int getEvad() { return this->EVAD; }
+	double getCrit() { return this->CRIT; }
+	double getEvad() { return this->EVAD; }
 	int getLv() { return this->LV; }
 	int getExp() { return this->MAX_EXP; }
 	int getType() { return this->type; }
 	bool getAlive() { return this->state; }
+	bool iflvup() { return this->CUR_EXP >= this->MAX_EXP; }
 
 	//setter
 	void setHp(int value) { this->HP = value; } // used for revive
@@ -42,23 +43,26 @@ public:
 	void setCrit(int value) { this->CRIT = value; } // used for reset after battle
 	void setEvad(int value) { this->EVAD = value; } // used for reset after battle
 	void setState(bool state) { this->state = state; } //set state of oopmon if dead
-	bool setExp(oopmon& op); // get the exp if oopmon won.
+	void setExp(oopmon& op); // get the exp if oopmon won.
 	void setLvup(); // lv up if cur_exp get to the max_exp
 
 	//dmg calc
-	void dmgHp(int value) { this->HP -= value; } // used to dmg or heal health by amount
+	void dmgHp(int value) { 
+		this->HP -= value;  
+		if (HP <= 0) state = false;
+	} // used to dmg or heal health by amount
 	void useMp(int value) { this->MP -= value; } // used to charge used mana by amount
 
 
 	void tackle(oopmon& op);
-	void lightatk(oopmon& op);
-	void heavyatk(oopmon& op);
-	void critup();
-	void evadup();
-	void itemuse();
+	int lightatk(oopmon& op);
+	int heavyatk(oopmon& op);
+	int critup();
+	int evadup();
+	int itemuse();
 
 	int dmgCalc(int atk, int def, double CRIT, double EVAD, int thistype, int thattype, double skilldmg);
-
+	void resurrection();
 private:
 	std::string NAME; //name of oopmon
 	std::string output = ""; // battle result etc

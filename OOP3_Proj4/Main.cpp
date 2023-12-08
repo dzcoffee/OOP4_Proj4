@@ -93,6 +93,11 @@ int main()
                 //sidewindow1.draw(window); // SideWindow 그리기
                 controller.draw(window);
             }
+            else {
+                if (!player.curmon().getAlive()) {
+                    mapManager.onPlayerDied();
+                }
+            }
 
             window.display();
         }
