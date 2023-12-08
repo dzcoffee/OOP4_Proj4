@@ -162,75 +162,89 @@ MapManager::MapManager(Player& player, gamecontroller& controller) : playerTile(
 
     // �� ����
     maps.emplace_back(30, 22);
-    maps.emplace_back(20, 20);
+    maps.emplace_back(30, 30);
     maps.emplace_back(20, 40);
     maps.emplace_back(20, 20);
     {
         Map& map = maps[0];
 
-        // ��ü�� grass�� ä���
+        // 전체를 grass로 채우기
         for (int i = 0; i < map.width; ++i) {
             for (int j = 0; j < map.height; ++j) {
                 map.grid[i][j] = new Grass(i * Tile::tileSize, j * Tile::tileSize, Tile::tileSize, Tile::tileSize, controller);
             }
         }
 
-        // �־��� ������ concrete���� ä���
+
         for (int i = 0; i <= 29; ++i) {
             for (int j = 0; j <= 1; ++j) {
-                delete map.grid[i][j]; // ���� Grass Ÿ�� ��ü ����
-                map.grid[i][j] = new Wall(i * Tile::tileSize, j * Tile::tileSize, Tile::tileSize, Tile::tileSize);
+                delete map.grid[i][j];
+                map.grid[i][j] = new Wall2(i * Tile::tileSize, j * Tile::tileSize, Tile::tileSize, Tile::tileSize);
             }
         }
 
         for (int i = 28; i <= 29; ++i) {
             for (int j = 2; j <= 19; ++j) {
-                delete map.grid[i][j]; // ���� Grass Ÿ�� ��ü ����
-                map.grid[i][j] = new Wall(i * Tile::tileSize, j * Tile::tileSize, Tile::tileSize, Tile::tileSize);
+                delete map.grid[i][j];
+                map.grid[i][j] = new Wall2(i * Tile::tileSize, j * Tile::tileSize, Tile::tileSize, Tile::tileSize);
             }
         }
 
         for (int i = 0; i <= 29; ++i) {
             for (int j = 20; j <= 21; ++j) {
-                delete map.grid[i][j]; // ���� Grass Ÿ�� ��ü ����
-                map.grid[i][j] = new Wall(i * Tile::tileSize, j * Tile::tileSize, Tile::tileSize, Tile::tileSize);
+                delete map.grid[i][j];
+                map.grid[i][j] = new Wall2(i * Tile::tileSize, j * Tile::tileSize, Tile::tileSize, Tile::tileSize);
             }
         }
 
         for (int i = 0; i <= 1; ++i) {
             for (int j = 8; j <= 19; ++j) {
-                delete map.grid[i][j]; // ���� Grass Ÿ�� ��ü ����
-                map.grid[i][j] = new Wall(i * Tile::tileSize, j * Tile::tileSize, Tile::tileSize, Tile::tileSize);
+                delete map.grid[i][j];
+                map.grid[i][j] = new Wall2(i * Tile::tileSize, j * Tile::tileSize, Tile::tileSize, Tile::tileSize);
             }
         }
 
 
         for (int i = 2; i <= 11; ++i) {
             int j = 8;
-            delete map.grid[i][j]; // ���� Grass Ÿ�� ��ü ����
+            delete map.grid[i][j];
             map.grid[i][j] = new Wall(i * Tile::tileSize, j * Tile::tileSize, Tile::tileSize, Tile::tileSize);
         }
 
         for (int j = 2; j <= 14; ++j) {
             int i = 15;
-            delete map.grid[i][j]; // ���� Grass Ÿ�� ��ü ����
+            delete map.grid[i][j];
             map.grid[i][j] = new Wall(i * Tile::tileSize, j * Tile::tileSize, Tile::tileSize, Tile::tileSize);
         }
 
         for (int i = 2; i <= 14; ++i) {
-            if (i == 9 || i == 10) {
+            if (i == 6 || i == 7) {
                 continue;
             }
             int j = 14;
-            delete map.grid[i][j]; // ���� Grass Ÿ�� ��ü ����
+            delete map.grid[i][j];
             map.grid[i][j] = new Wall(i * Tile::tileSize, j * Tile::tileSize, Tile::tileSize, Tile::tileSize);
         }
 
+        for (int i = 19; i <= 25; ++i) {
+            for (int j = 4; j <= 17; ++j) {
+                delete map.grid[i][j];
+                map.grid[i][j] = new Road(i * Tile::tileSize, j * Tile::tileSize, Tile::tileSize, Tile::tileSize);
+            }
+        }
 
-        delete map.grid[0][4];
-        map.grid[0][4] = new Potal(0 * Tile::tileSize, 4 * Tile::tileSize, Tile::tileSize, Tile::tileSize, *this, 1, 0, 5);
+        for (int i = 4; i <= 9; ++i) {
+            for (int j = 9; j <= 13; ++j) {
+                delete map.grid[i][j];
+                map.grid[i][j] = new Road(i * Tile::tileSize, j * Tile::tileSize, Tile::tileSize, Tile::tileSize);
+            }
+        }
+
+
+        delete map.grid[0][4]; // move to map1
+        map.grid[0][4] = new Potal(0 * Tile::tileSize, 4 * Tile::tileSize, Tile::tileSize, Tile::tileSize, *this, 1, 28, 4);
         delete map.grid[0][5];
-        map.grid[0][5] = new Potal(0 * Tile::tileSize, 5 * Tile::tileSize, Tile::tileSize, Tile::tileSize, *this, 1, 0, 5);
+        map.grid[0][5] = new Potal(0 * Tile::tileSize, 5 * Tile::tileSize, Tile::tileSize, Tile::tileSize, *this, 1, 28, 5);
     }
 
     {
@@ -332,7 +346,7 @@ MapManager::MapManager(Player& player, gamecontroller& controller) : playerTile(
     }
 
     {
-        Map& map = maps[2];
+        Map& map = maps[2]; //map3
 
         for (int i = 0; i < map.width; ++i) {
             for (int j = 0; j < map.height; ++j) {
@@ -426,7 +440,7 @@ MapManager::MapManager(Player& player, gamecontroller& controller) : playerTile(
     }
 
     changeMap(0, 22, 5);
-
+    view = sf::View(sf::FloatRect(0, 0, 1600, 900));
 }
 
 void MapManager::changeMap(int mapNum, int x, int y) {
