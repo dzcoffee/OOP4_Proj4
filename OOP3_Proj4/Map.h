@@ -120,6 +120,7 @@ public:
 	void changeMap(int mapNum, int x, int y);
 	void movePlayer(int dx, int dy);
 	void draw(RenderWindow& window);
+	void moveView(int mapNum, int x, int y);
 	View& getView();
 };
 
