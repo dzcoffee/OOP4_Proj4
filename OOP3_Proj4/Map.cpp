@@ -102,7 +102,7 @@ bool Potal::onCollision(Player& player) {
     return false;
 }
 
-Wall::Wall(float x, float y, float width, float height) : Tile(x, y, width, height,"wall_normal1.png") {
+Wall::Wall(float x, float y, float width, float height) : Tile(x, y, width, height,"wall_normal1.png") { //normal_wall
 
 }
 
@@ -110,6 +110,45 @@ bool Wall::onCollision(Player& player) {
 
     return false;
 }
+
+Wall2::Wall2(float x, float y, float width, float height) : Tile(x, y, width, height, "wall_tree.png") { //tree_wall
+
+}
+
+bool Wall2::onCollision(Player& player) {
+
+    return false;
+}
+
+Wall3::Wall3(float x, float y, float width, float height) : Tile(x, y, width, height, "wall_normal2.png") { //corner_wall
+
+}
+
+bool Wall3::onCollision(Player& player) {
+
+    return false;
+}
+
+Wall4::Wall4(float x, float y, float width, float height) : Tile(x, y, width, height, "wall_water.png") { //corner_wall
+
+}
+
+bool Wall4::onCollision(Player& player) {
+
+    return false;
+}
+
+Event_Tile::Event_Tile(float x, float y, float width, float height) : Tile(x, y, width, height, "EV.png") { //event TIle
+
+}
+
+bool Event_Tile::onCollision(Player& player) {
+
+    return true;
+}
+
+
+
 
 // MapManager
 MapManager::MapManager(Player& player) : playerTile(Tile::tileSize, Tile::tileSize, Tile::tileSize, Tile::tileSize, player) {
@@ -131,28 +170,28 @@ MapManager::MapManager(Player& player) : playerTile(Tile::tileSize, Tile::tileSi
         for (int i = 0; i <= 29; ++i) {
             for (int j = 0; j <= 1; ++j) {
                 delete map.grid[i][j]; // 기존 Grass 타일 객체 삭제
-                map.grid[i][j] = new Wall(i * Tile::tileSize, j * Tile::tileSize, Tile::tileSize, Tile::tileSize);
+                map.grid[i][j] = new Wall2(i * Tile::tileSize, j * Tile::tileSize, Tile::tileSize, Tile::tileSize);
             }
         }
 
         for (int i = 28; i <= 29; ++i) {
             for (int j = 2; j <= 19; ++j) {
                 delete map.grid[i][j]; // 기존 Grass 타일 객체 삭제
-                map.grid[i][j] = new Wall(i * Tile::tileSize, j * Tile::tileSize, Tile::tileSize, Tile::tileSize);
+                map.grid[i][j] = new Wall2(i * Tile::tileSize, j * Tile::tileSize, Tile::tileSize, Tile::tileSize);
             }
         }
 
         for (int i = 0; i <= 29; ++i) {
             for (int j = 20; j <= 21; ++j) {
                 delete map.grid[i][j]; // 기존 Grass 타일 객체 삭제
-                map.grid[i][j] = new Wall(i * Tile::tileSize, j * Tile::tileSize, Tile::tileSize, Tile::tileSize);
+                map.grid[i][j] = new Wall2(i * Tile::tileSize, j * Tile::tileSize, Tile::tileSize, Tile::tileSize);
             }
         }
 
         for (int i = 0; i <= 1; ++i) {
             for (int j = 8; j <= 19; ++j) {
                 delete map.grid[i][j]; // 기존 Grass 타일 객체 삭제
-                map.grid[i][j] = new Wall(i * Tile::tileSize, j * Tile::tileSize, Tile::tileSize, Tile::tileSize);
+                map.grid[i][j] = new Wall2(i * Tile::tileSize, j * Tile::tileSize, Tile::tileSize, Tile::tileSize);
             }
         }
 
