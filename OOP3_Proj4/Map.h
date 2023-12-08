@@ -3,14 +3,12 @@
 
 #include <SFML/Graphics.hpp>
 #include <vector>
+#include "player.cpp"
 
 using namespace std;
 using namespace sf;
 
 class MapManager;
-class Player {
-
-};
 
 class Tile {
 protected:
@@ -18,10 +16,10 @@ protected:
 	Texture texture;
 public:
 	Tile(float x, float y, float width, float height, const std::string& textureFile);
-	static const int tileSize = 100; // Å¸ÀÏÀÇ Å©±â¸¦ ³ªÅ¸³»´Â Á¤Àû ¸â¹ö º¯¼ö Ãß°¡
+	static const int tileSize = 100; // íƒ€ì¼ì˜ í¬ê¸°ë¥¼ ë‚˜íƒ€ë‚´ëŠ” ì •ì  ë©¤ë²„ ë³€ìˆ˜ ì¶”ê°€
 	virtual ~Tile() = default;
 	void draw(sf::RenderWindow& window);
-	virtual bool onCollision(Player& player) = 0;		// Ãæµ¹ ½Ã ÀÌº¥Æ®
+	virtual bool onCollision(Player& player) = 0;		// ì¶©ëŒ ì‹œ ì´ë²¤íŠ¸
 };
 
 class PlayerTile : public Tile {
@@ -66,6 +64,31 @@ public:
 	virtual bool onCollision(Player& player);
 };
 
+class Wall2 : public Tile {
+public:
+	Wall2(float x, float y, float width, float height);
+	virtual bool onCollision(Player& player);
+};
+
+class Wall3 : public Tile {
+public:
+	Wall3(float x, float y, float width, float height);
+	virtual bool onCollision(Player& player);
+};
+
+class Wall4 : public Tile {
+public:
+	Wall4(float x, float y, float width, float height);
+	virtual bool onCollision(Player& player);
+};
+
+class Event_Tile : public Tile {
+public:
+	Event_Tile(float x, float y, float width, float height);
+	virtual bool onCollision(Player& player);
+};
+
+
 
 class Map {
 public:
@@ -82,7 +105,7 @@ public:
 	void draw(RenderWindow& window);
 };
 
-// ¸Ê °ü¸®
+// ë§µ ê´€ë¦¬
 class MapManager {
 private:
 	vector<Map> maps;
@@ -90,12 +113,15 @@ private:
 	PlayerTile playerTile;
 	int playerX;
 	int playerY;
+	View view;
 
 public:
 	MapManager(Player& player);
 	void changeMap(int mapNum, int x, int y);
 	void movePlayer(int dx, int dy);
 	void draw(RenderWindow& window);
+	void moveView(int mapNum, int x, int y);
+	View& getView();
 };
 
 #endif
